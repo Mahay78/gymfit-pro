@@ -245,7 +245,7 @@ export const ROUTINE_BRO_SPLIT: RoutineDay[] = [
         defaultWeight: 15,
         machineBase: 0,
         instructions: "De frente al respaldo. Abre brazos con codos altos.",
-        machineType: "pecdeck"
+        machineType: "reardelt"
       },
       {
         id: "bs-d4-e4",

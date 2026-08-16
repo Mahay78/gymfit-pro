@@ -28,7 +28,7 @@ export function MachineModal({ machineType, onClose }: Props) {
         </div>
 
         <div className="bg-slate-950 p-4 rounded-2xl border border-slate-850 text-xs space-y-2 text-left">
-          <p className="font-bold text-emerald-400">Instrucciones de Ajuste Ergonómico:</p>
+          <p className="font-bold text-accent">Instrucciones de Ajuste Ergonómico:</p>
           <ul className="list-disc pl-4 space-y-1 text-slate-300 text-[11px] leading-relaxed">
             <li>Alinea las articulaciones móviles con el eje de giro indicado de la máquina.</li>
             <li>Modifica la altura del asiento para que el esfuerzo se concentre en el músculo objetivo (marcado en neón esmeralda).</li>

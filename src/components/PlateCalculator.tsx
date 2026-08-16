@@ -57,7 +57,7 @@ export function PlateCalculator({ exercise, customWeights, onApply, onClose, onS
           </div>
 
           <div className="bg-slate-950 p-4 rounded-2xl border border-slate-850 space-y-3 text-xs text-left">
-            <p className="font-bold text-emerald-400 text-center">A cargar a CADA lado de la máquina:</p>
+            <p className="font-bold text-accent text-center">A cargar a CADA lado de la máquina:</p>
             {result.error ? (
               <p className="text-rose-400 text-center font-bold text-[11px]">{result.error}</p>
             ) : result.plates.length > 0 ? (
@@ -65,7 +65,7 @@ export function PlateCalculator({ exercise, customWeights, onApply, onClose, onS
                 {result.plates.map((p, idx) => (
                   <div key={idx} className="flex justify-between items-center bg-slate-900 px-3 py-2 rounded-xl">
                     <span className="font-bold text-slate-200">Discos de {p.size} kg</span>
-                    <span className="bg-emerald-500 text-slate-950 font-black text-[10px] px-2.5 py-0.5 rounded-full">
+                    <span className="bg-accent text-slate-950 font-black text-[10px] px-2.5 py-0.5 rounded-full">
                       {p.count} unidad(es)
                     </span>
                   </div>
@@ -81,7 +81,7 @@ export function PlateCalculator({ exercise, customWeights, onApply, onClose, onS
         </div>
 
         <button onClick={() => { onApply(exercise.id, targetWeight); onClose(); onShowNotification(`Carga de ${targetWeight}kg aplicada a este ejercicio`); }}
-          className="w-full bg-emerald-500 text-slate-950 font-black py-2.5 rounded-xl text-xs">
+          className="w-full bg-accent text-slate-950 font-black py-2.5 rounded-xl text-xs">
           Aplicar este peso a la rutina
         </button>
       </div>

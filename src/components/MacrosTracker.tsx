@@ -17,7 +17,7 @@ export function MacrosTracker({ weight, height, age, gender, activity, onShowNot
   return (
     <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-xl space-y-4">
       <div>
-        <span className="text-emerald-400 text-[10px] font-bold uppercase tracking-wider">Nutrición</span>
+        <span className="text-accent text-[10px] font-bold uppercase tracking-wider">Nutrición</span>
         <h3 className="text-base font-black">Macros Diarios Recomendados</h3>
         <p className="text-[10px] text-slate-500">Calculado según tu peso, altura, edad y objetivo</p>
       </div>
@@ -29,7 +29,7 @@ export function MacrosTracker({ weight, height, age, gender, activity, onShowNot
             onClick={() => { setGoal(g); onShowNotification(`Objetivo: ${g === 'cut' ? 'Perder grasa' : g === 'maintain' ? 'Mantener' : 'Ganar músculo'}`); }}
             className={`py-2 rounded-xl text-[10px] font-black uppercase ${
               goal === g
-                ? 'bg-emerald-500 text-slate-950'
+                ? 'bg-accent text-slate-950'
                 : 'bg-slate-950 text-slate-400 border border-slate-800'
             }`}
           >
@@ -41,7 +41,7 @@ export function MacrosTracker({ weight, height, age, gender, activity, onShowNot
       <div className="grid grid-cols-2 gap-3">
         <div className="bg-slate-950 p-3 rounded-2xl text-center">
           <p className="text-[9px] text-slate-500 uppercase font-bold">Calorías</p>
-          <p className="text-2xl font-black text-emerald-400 mt-0.5">{macros.calories}</p>
+          <p className="text-2xl font-black text-accent mt-0.5">{macros.calories}</p>
           <p className="text-[9px] text-slate-500">kcal/día</p>
         </div>
         <div className="bg-slate-950 p-3 rounded-2xl text-center">

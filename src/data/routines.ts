@@ -20,16 +20,16 @@ export const ROUTINE_WEEK_A: RoutineDay[] = [
         machineType: "legpress"
       },
       {
-        id: "wa-d1-e2",
-        name: "Jalón al Pecho en Polea Alta",
-        alternativeName: "Jalón al Pecho en Máquina de Palancas",
-        target: "Dorsal Ancho, Bíceps y Espalda Alta",
-        setsCount: 4,
-        defaultReps: 12,
-        defaultWeight: 45,
-        machineBase: 5,
-        instructions: "Sujeta la barra un poco más del ancho de hombros, saca pecho y tira de la barra hacia la clavícula.",
-        machineType: "pulldown"
+        id: "wa-d1-triceps",
+        name: "Extensión de Tríceps en Polea",
+        alternativeName: "Patada de Tríceps Unilateral en Polea",
+        target: "Tríceps (Cabeza Lateral y Larga)",
+        setsCount: 3,
+        defaultReps: 15,
+        defaultWeight: 20,
+        machineBase: 0,
+        instructions: "Mantén codos fijos a los costados del cuerpo. Extiende los brazos hacia abajo usando cuerda o barra.",
+        machineType: "tricepspushdown"
       },
       {
         id: "wa-d1-e3",
@@ -112,40 +112,40 @@ export const ROUTINE_WEEK_A: RoutineDay[] = [
         machineType: "seatedrow"
       },
       {
-        id: "wa-d2-e3",
-        name: "Contractora / Pec Deck",
-        alternativeName: "Aperturas de Pecho en Poleas Medias",
-        target: "Aislamiento de Pectorales",
+        id: "wa-d2-jalon",
+        name: "Jalón al Pecho en Polea Alta",
+        alternativeName: "Jalón al Pecho en Máquina de Palancas",
+        target: "Dorsal Ancho, Redondo Mayor y Bíceps",
         setsCount: 3,
         defaultReps: 12,
-        defaultWeight: 30,
-        machineBase: 0,
-        instructions: "Codos semiflexionados. Junta los brazos sintiendo la compresión interna del pecho.",
-        machineType: "pecdeck"
+        defaultWeight: 45,
+        machineBase: 5,
+        instructions: "Sujeta la barra un poco más del ancho de hombros, saca pecho y tira de la barra hacia la clavícula.",
+        machineType: "pulldown"
       },
       {
-        id: "wa-d2-e4",
-        name: "Press de Hombro Sentado",
-        alternativeName: "Press Militar de Hombros en Multipower",
-        target: "Deltoides Anterior, Lateral y Tríceps",
+        id: "wa-d2-biceps",
+        name: "Curl de Bíceps en Banco Predicador",
+        alternativeName: "Curl de Bíceps con Barra Z",
+        target: "Bíceps (Cabeza Corta y Braquial)",
         setsCount: 3,
-        defaultReps: 10,
-        defaultWeight: 25,
-        machineBase: 10,
-        instructions: "Manos a la altura de las orejas de inicio. Empuja de forma vertical sin bloquear los codos bruscamente.",
-        machineType: "shoulderpress"
+        defaultReps: 12,
+        defaultWeight: 15,
+        machineBase: 0,
+        instructions: "Apoya la parte posterior del brazo en el cojín. Flexiona el codo sin despegar el brazo del banco.",
+        machineType: "bicepcurl"
       },
       {
-        id: "wa-d2-e5",
-        name: "Extensión de Tríceps en Polea",
-        alternativeName: "Patada de Tríceps Unilateral en Polea",
-        target: "Tríceps (Énfasis Cabeza Lateral)",
+        id: "wa-d2-posterior",
+        name: "Contractora Invertida / Deltoides Posterior",
+        alternativeName: "Pájaros en Polea Cruzada",
+        target: "Deltoides Posterior y Tramo Superior de Espalda",
         setsCount: 3,
         defaultReps: 15,
-        defaultWeight: 20,
+        defaultWeight: 25,
         machineBase: 0,
-        instructions: "Mantén codos fijos a los costados del cuerpo. Extiende los brazos hacia abajo usando cuerda o barra.",
-        machineType: "tricepspushdown"
+        instructions: "Codos ligeramente flexionados. Abre los brazos hacia atrás apretando la zona de los omóplatos.",
+        machineType: "reardelt"
       },
       {
         id: "wa-d2-e6",
@@ -228,16 +228,16 @@ export const ROUTINE_WEEK_A: RoutineDay[] = [
         machineType: "calfraise"
       },
       {
-        id: "wa-d3-e6",
-        name: "Rotaciones de Torso en Máquina",
-        alternativeName: "Giros Rusos en el Suelo con Disco",
-        target: "Oblicuos y Rotadores del Tronco",
+        id: "wa-d3-gluteo",
+        name: "Prensa con Pies Altos (Énfasis Glúteo)",
+        alternativeName: "Empuje de Cadera en Máquina Multipower",
+        target: "Glúteos, Femorales y Cuádriceps",
         setsCount: 3,
         defaultReps: 15,
-        defaultWeight: 20,
-        machineBase: 0,
-        instructions: "Mantén fija la pelvis en el sillón y gira el torso lateralmente contrayendo oblicuos.",
-        machineType: "crunch"
+        defaultWeight: 60,
+        machineBase: 40,
+        instructions: "Coloca los pies en la parte superior de la plataforma. Baja controlando y empuja concentrando el esfuerzo en los glúteos.",
+        machineType: "legpress"
       }
     ]
   }
@@ -364,7 +364,7 @@ export const ROUTINE_WEEK_B: RoutineDay[] = [
         defaultWeight: 15,
         machineBase: 0,
         instructions: "Siéntate de frente al respaldo. Abre los brazos manteniendo codos altos para aislar el hombro posterior.",
-        machineType: "pecdeck"
+        machineType: "reardelt"
       },
       {
         id: "wb-d2-e4",
@@ -380,7 +380,7 @@ export const ROUTINE_WEEK_B: RoutineDay[] = [
       },
       {
         id: "wb-d2-e5",
-        name: "Extensión de Tríceps sobre la Para la Cabeza",
+        name: "Extensión de Tríceps por Encima de la Cabeza",
         alternativeName: "Patada de Tríceps con Cuerda en Polea Media",
         target: "Tríceps (Cabeza Larga)",
         setsCount: 3,

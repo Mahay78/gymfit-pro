@@ -16,26 +16,37 @@ const tabs: { id: TabId; label: string; shortLabel: string; icon: string }[] = [
 
 export function Navigation({ activeTab, workoutActive, onTabChange }: Props) {
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-slate-900/95 backdrop-blur-md border-t border-slate-800 z-40 px-1 sm:px-3 py-2 safe-bottom">
-      <div className="max-w-md mx-auto flex items-center justify-between">
-        {tabs.map(tab => (
-          <button
-            key={tab.id}
-            onClick={() => onTabChange(tab.id)}
-            aria-label={tab.label}
-            className={`flex flex-col items-center justify-center flex-1 py-2 px-1 min-h-[56px] rounded-lg active:scale-95 transition-all relative ${
-              activeTab === tab.id ? 'text-emerald-400' : 'text-slate-400'
-            }`}
-          >
-            {tab.id === 'entrenar' && workoutActive && (
-              <span className="absolute top-1 right-1/4 w-2 h-2 rounded-full bg-rose-500 animate-ping" />
-            )}
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d={tab.icon} />
-            </svg>
-            <span className="text-[9px] mt-1 font-semibold truncate max-w-full">{tab.shortLabel}</span>
-          </button>
-        ))}
+    <nav className="fixed bottom-0 left-0 right-0 bg-slate-950/80 backdrop-blur-xl border-t border-white/5 z-40 px-1 sm:px-3 py-2 safe-bottom nav-landscape">
+      <div className="max-w-md mx-auto flex items-center justify-between gap-1">
+        {tabs.map(tab => {
+          const active = activeTab === tab.id;
+          return (
+            <button
+              key={tab.id}
+              onClick={() => onTabChange(tab.id)}
+              aria-label={tab.label}
+              aria-current={active ? 'page' : undefined}
+              className={`relative flex flex-col items-center justify-center flex-1 py-2 px-1 min-h-[56px] rounded-xl active:scale-95 transition-all ${
+                active ? 'text-accent' : 'text-slate-400 hover:text-slate-200'
+              }`}
+            >
+              {active && (
+                <span className="absolute top-0.5 left-1/2 -translate-x-1/2 h-1 w-6 rounded-full bg-gradient-to-r from-accent to-accent/70" />
+              )}
+              {tab.id === 'entrenar' && workoutActive && (
+                <span className="absolute top-1 right-1/4 w-2 h-2 rounded-full bg-rose-500 animate-ping" />
+              )}
+              <span className={`relative flex items-center justify-center w-10 h-8 rounded-lg transition-colors ${
+                active ? 'bg-accent/15' : ''
+              }`}>
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={active ? 2.2 : 1.75}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d={tab.icon} />
+                </svg>
+              </span>
+              <span className={`text-[9px] mt-0.5 font-semibold truncate max-w-full ${active ? 'text-accent' : ''}`}>{tab.shortLabel}</span>
+            </button>
+          );
+        })}
       </div>
     </nav>
   );

@@ -89,14 +89,12 @@ export function HIITTimer({ onClose, onShowNotification, soundEnabled }: Props) 
     setIsFinished(false);
   };
 
-  const color = isWork ? 'emerald' : 'cyan';
   const colorMap: Record<string, { bg: string; border: string; text: string; ring: string }> = {
     emerald: { bg: 'bg-emerald-500', border: 'border-emerald-500/30', text: 'text-emerald-400', ring: 'stroke-emerald-500' },
     cyan: { bg: 'bg-cyan-500', border: 'border-cyan-500/30', text: 'text-cyan-400', ring: 'stroke-cyan-500' },
     rose: { bg: 'bg-rose-500', border: 'border-rose-500/30', text: 'text-rose-400', ring: 'stroke-rose-500' },
     amber: { bg: 'bg-amber-500', border: 'border-amber-500/30', text: 'text-amber-400', ring: 'stroke-amber-500' },
   };
-  const c = colorMap[PRESETS[preset].color];
   const currentColorMap = isWork ? colorMap.emerald : colorMap.cyan;
   const C = isFinished ? colorMap.amber : currentColorMap;
 

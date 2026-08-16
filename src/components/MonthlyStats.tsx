@@ -26,7 +26,7 @@ export function MonthlyStats({ history }: Props) {
     <div className="grid grid-cols-2 gap-3">
       <div className="bg-slate-950 border border-slate-850 rounded-2xl p-4">
         <p className="text-[9px] text-slate-400 uppercase font-bold tracking-wider">Entrenamientos mes</p>
-        <p className="text-2xl font-black text-emerald-400 mt-1">{workoutsThisMonth}</p>
+        <p className="text-2xl font-black text-accent mt-1">{workoutsThisMonth}</p>
         <p className="text-[9px] text-slate-500 mt-1">de 12 posibles</p>
         <div className="mt-2 h-1.5 bg-slate-900 rounded-full overflow-hidden">
           <div

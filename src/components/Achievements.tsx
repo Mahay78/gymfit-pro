@@ -1,4 +1,4 @@
-import type { HistoryItem, BodyMeasurement, CardioSession, Achievement } from '../types';
+import type { HistoryItem, BodyMeasurement, CardioSession } from '../types';
 import { calculateAchievements } from '../data/achievements';
 
 interface Props {
@@ -17,7 +17,7 @@ export function Achievements({ history, bodyMeasurements, cardioSessions, startW
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <p className="text-[10px] text-emerald-400 uppercase font-bold tracking-wider">Tu colección</p>
+        <p className="text-[10px] text-accent uppercase font-bold tracking-wider">Tu colección</p>
         <p className="text-xs font-bold text-slate-300">
           {unlocked.length} / {achievements.length}
         </p>
@@ -28,10 +28,10 @@ export function Achievements({ history, bodyMeasurements, cardioSessions, startW
           {unlocked.map(a => (
             <div
               key={a.id}
-              className="bg-gradient-to-br from-emerald-500/20 to-emerald-900/10 border border-emerald-500/30 rounded-2xl p-3 text-center"
+              className="bg-gradient-to-br from-accent/20 to-emerald-900/10 border border-accent/30 rounded-2xl p-3 text-center"
             >
               <div className="text-3xl mb-1">{a.icon}</div>
-              <p className="text-[10px] font-black text-emerald-400 uppercase">{a.name}</p>
+              <p className="text-[10px] font-black text-accent uppercase">{a.name}</p>
               <p className="text-[9px] text-slate-400 mt-1 leading-tight">{a.description}</p>
             </div>
           ))}

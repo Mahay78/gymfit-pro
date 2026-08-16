@@ -34,12 +34,12 @@ export function GoalWeightCard({ currentWeight, goalWeight, startWeight, onSaveG
     <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-xl space-y-3">
       <div className="flex items-center justify-between">
         <div>
-          <span className="text-emerald-400 text-[10px] font-bold uppercase tracking-wider">Objetivo</span>
+          <span className="text-accent text-[10px] font-bold uppercase tracking-wider">Objetivo</span>
           <h3 className="text-base font-black">Peso Meta: {goalWeight} kg</h3>
         </div>
         <button
           onClick={() => setEditing(!editing)}
-          className="bg-slate-950 border border-slate-800 text-slate-300 hover:text-emerald-400 text-xs font-bold px-3 py-1.5 rounded-lg active:scale-95"
+          className="bg-slate-950 border border-slate-800 text-slate-300 hover:text-accent text-xs font-bold px-3 py-1.5 rounded-lg active:scale-95"
         >
           {editing ? 'Cancelar' : '✏️ Cambiar'}
         </button>
@@ -53,9 +53,9 @@ export function GoalWeightCard({ currentWeight, goalWeight, startWeight, onSaveG
             step="0.1"
             value={draft}
             onChange={e => setDraft(e.target.value)}
-            className="flex-1 bg-slate-950 border border-emerald-500/40 p-2.5 rounded-xl text-slate-100 font-bold focus:outline-none text-sm"
+            className="flex-1 bg-slate-950 border border-accent/40 p-2.5 rounded-xl text-slate-100 font-bold focus:outline-none text-sm"
           />
-          <button onClick={handleSave} className="bg-emerald-500 text-slate-950 font-black px-4 py-2.5 rounded-xl text-xs">
+          <button onClick={handleSave} className="bg-accent text-slate-950 font-black px-4 py-2.5 rounded-xl text-xs">
             Guardar
           </button>
         </div>
@@ -68,14 +68,14 @@ export function GoalWeightCard({ currentWeight, goalWeight, startWeight, onSaveG
             </div>
             <div className="w-full bg-slate-950 h-3 rounded-full overflow-hidden">
               <div
-                className={`h-full rounded-full transition-all duration-700 ${
-                  pct >= 100 ? 'bg-emerald-500' : 'bg-gradient-to-r from-emerald-500 to-teal-400'
+                className={`h-full rounded-full progress-bar animate ${
+                  pct >= 100 ? 'bg-accent' : 'bg-gradient-to-r from-accent to-accent/70'
                 }`}
-                style={{ width: `${pct}%` }}
+                style={{ ['--bar-target' as any]: `${pct}%`, width: `${pct}%` }}
               />
             </div>
             <div className="flex justify-between text-[10px] mt-1.5">
-              <span className="text-emerald-400 font-bold">{lost.toFixed(1)} kg perdidos</span>
+              <span className="text-accent font-bold">{lost.toFixed(1)} kg perdidos</span>
               <span className="text-amber-400 font-bold">{remaining.toFixed(1)} kg restantes</span>
             </div>
           </div>
@@ -87,7 +87,7 @@ export function GoalWeightCard({ currentWeight, goalWeight, startWeight, onSaveG
                 {prediction.date === '—' ? (
                   <span className="text-rose-400">Sin progreso reciente</span>
                 ) : prediction.date === '¡Objetivo alcanzado!' ? (
-                  <span className="text-emerald-400 font-bold">¡Objetivo alcanzado!</span>
+                   <span className="text-accent font-bold">¡Objetivo alcanzado!</span>
                 ) : (
                   <>
                     <span className="text-slate-200 font-bold">{prediction.date}</span>

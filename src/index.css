@@ -4,10 +4,17 @@
   --color-slate-750: #334155;
   --color-slate-850: #1e293b;
 
+  /* Color de acento dinámico (cambiable en Ajustes) */
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+
   --animate-fadeIn: fadeIn 0.4s ease-out forwards;
-  --animate-bounceIn: bounceIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  --animate-bounceIn: bounceIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   --animate-slideUp: slideUp 0.5s ease-out forwards;
   --animate-glowPulse: glowPulse 2s infinite ease-in-out;
+  --animate-pop: pop 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-slideIn: slideIn 0.45s ease-out forwards;
+  --animate-barFill: barFill 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 
   @keyframes fadeIn {
     0% { opacity: 0; transform: translateY(10px); }
@@ -26,10 +33,67 @@
   }
 
   @keyframes glowPulse {
-    0% { box-shadow: 0 0 5px rgba(16, 185, 129, 0.2); }
-    50% { box-shadow: 0 0 20px rgba(16, 185, 129, 0.6); }
-    100% { box-shadow: 0 0 5px rgba(16, 185, 129, 0.2); }
+    0% { box-shadow: 0 0 5px color-mix(in srgb, var(--accent) 20%, transparent); }
+    50% { box-shadow: 0 0 20px color-mix(in srgb, var(--accent) 60%, transparent); }
+    100% { box-shadow: 0 0 5px color-mix(in srgb, var(--accent) 20%, transparent); }
   }
+
+  @keyframes pop {
+    0% { transform: scale(0.6); opacity: 0; }
+    60% { transform: scale(1.15); }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  @keyframes slideIn {
+    0% { opacity: 0; transform: translateX(-12px); }
+    100% { opacity: 1; transform: translateX(0); }
+  }
+
+  @keyframes barFill {
+    0% { width: 0%; }
+    100% { width: var(--bar-target, 100%); }
+  }
+}
+
+/* Accesibilidad: respeta la preferencia de movimiento reducido */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ---- Acente dinámico ---- */
+:root,
+[data-accent="emerald"] {
+  --accent: #10b981;
+  --accent-soft: rgba(16, 185, 129, 0.15);
+}
+[data-accent="cyan"] {
+  --accent: #06b6d4;
+  --accent-soft: rgba(6, 182, 212, 0.15);
+}
+[data-accent="rose"] {
+  --accent: #f43f5e;
+  --accent-soft: rgba(244, 63, 94, 0.15);
+}
+[data-accent="violet"] {
+  --accent: #8b5cf6;
+  --accent-soft: rgba(139, 92, 246, 0.15);
+}
+[data-accent="amber"] {
+  --accent: #f59e0b;
+  --accent-soft: rgba(245, 158, 11, 0.15);
+}
+
+/* ---- Design system tokens ---- */
+:root {
+  --radius-card: 1.25rem;
+  --shadow-card: 0 1px 2px rgba(0,0,0,0.4), 0 8px 24px -12px rgba(0,0,0,0.6);
+  --shadow-card-hover: 0 2px 4px rgba(0,0,0,0.4), 0 16px 40px -12px rgba(0,0,0,0.7);
+  --ring-accent: 0 0 0 3px color-mix(in srgb, var(--accent) 25%, transparent);
 }
 
 * {
@@ -38,17 +102,29 @@
 }
 
 html, body {
-  background-color: #020617;
+  background-color: #010409;
+  background-image:
+    radial-gradient(1200px 600px at 15% -10%, color-mix(in srgb, var(--accent) 8%, transparent), transparent 55%),
+    radial-gradient(1000px 500px at 100% 0%, color-mix(in srgb, var(--accent) 5%, transparent), transparent 50%);
+  background-attachment: fixed;
   color: #f1f5f9;
   overscroll-behavior-y: contain;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "cv11", "ss01";
 }
 
 button, [role="button"], a {
   touch-action: manipulation;
   -webkit-user-select: none;
   user-select: none;
+}
+
+/* Accesible & coherente focus ring */
+:is(button, a, input, textarea, select):focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 8px;
 }
 
 input, textarea, select {
@@ -74,23 +150,31 @@ html, body { overflow-x: hidden; max-width: 100vw; }
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #020617;
+  background: transparent;
 }
 ::-webkit-scrollbar-thumb {
   background: #1e293b;
-  border-radius: 4px;
+  border-radius: 8px;
+  border: 2px solid #010409;
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #334155;
 }
 
+/* Mejor contraste del texto seleccionado */
+::selection {
+  background: color-mix(in srgb, var(--accent) 30%, transparent);
+  color: #ecfdf5;
+}
+
 /* Modo claro - override de colores principales */
 html.light body {
   background-color: #f1f5f9;
+  background-image: none;
   color: #0f172a;
 }
 html.light .bg-slate-950 {
@@ -118,3 +202,71 @@ html.light .border-slate-700 {
 html.light .bg-slate-800 {
   background-color: #e2e8f0 !important;
 }
+
+/* ---- Barra de progreso animada ---- */
+.progress-bar {
+  width: var(--bar-target, 0%);
+  transition: width 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.progress-bar.animate {
+  animation: barFill 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ---- Optimización Landscape (móvil horizontal) ---- */
+@media (orientation: landscape) and (max-height: 560px) {
+  /* Header y navegación compactos */
+  header { padding-top: 0.25rem !important; padding-bottom: 0.25rem !important; }
+  .nav-landscape { position: static !important; flex-direction: row !important; padding: 0.35rem 0.5rem !important; }
+  .nav-landscape a, .nav-landscape button { padding: 0.35rem 0.5rem !important; font-size: 0.6rem !important; }
+
+  /* Fase de fuerza: tarjetas en 2 columnas para aprovechar ancho */
+  .lifting-landscape {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 0.75rem !important;
+  }
+  .lifting-landscape > .exercise-card { margin-bottom: 0 !important; }
+
+  /* Menos espacio vertical en sesión de entrenamiento */
+  .workout-landscape { gap: 0.5rem !important; }
+  .workout-landscape .phase-indicator { padding: 0.5rem 0.75rem !important; }
+
+  /* Timer circular compacto */
+  .landscape-timer { width: 60px !important; height: 60px !important; }
+
+  /* Biblioteca en varias columnas */
+  .library-landscape {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 0.5rem !important;
+  }
+}
+
+@media (orientation: landscape) and (min-height: 561px) and (max-width: 1024px) {
+  .lifting-landscape {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 1rem !important;
+  }
+  .library-landscape {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+/* Landscape específico para tablet/desktop horizontal */
+@media (orientation: landscape) and (min-width: 768px) {
+  .lifting-landscape {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+  .workout-landscape .phase-indicator {
+    flex-direction: row !important;
+    justify-content: space-around !important;
+  }
+}
+
+/* Pequeña animación de "pop" al completar serie */
+.set-done-pop { animation: pop 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+/* Entrada escalonada para tarjetas de ejercicio */
+.stagger-in { animation: slideIn 0.45s ease-out both; }

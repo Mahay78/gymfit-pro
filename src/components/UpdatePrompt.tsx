@@ -10,7 +10,7 @@ export function UpdatePrompt() {
       window.location.reload();
     };
 
-    let registration: ServiceWorkerRegistration | null = null;
+    let registration: ServiceWorkerRegistration | undefined;
     const checkForUpdate = async () => {
       try {
         registration = await navigator.serviceWorker.getRegistration();
@@ -49,14 +49,14 @@ export function UpdatePrompt() {
   };
 
   return (
-    <div className="fixed bottom-24 left-1/2 transform -translate-x-1/2 z-50 bg-emerald-500 text-slate-950 px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3 animate-slideUp max-w-sm">
+    <div className="fixed bottom-24 left-1/2 transform -translate-x-1/2 z-50 bg-accent text-slate-950 px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3 animate-slideUp max-w-sm">
       <div className="flex-1">
         <p className="font-black text-xs">Nueva versión disponible</p>
         <p className="text-[10px] opacity-80">Actualiza para obtener las últimas mejoras</p>
       </div>
       <button
         onClick={handleUpdate}
-        className="bg-slate-950 text-emerald-400 font-black text-xs px-3 py-1.5 rounded-lg active:scale-95"
+        className="bg-slate-950 text-accent font-black text-xs px-3 py-1.5 rounded-lg active:scale-95"
       >
         Actualizar
       </button>

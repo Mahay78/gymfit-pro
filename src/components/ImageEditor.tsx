@@ -12,7 +12,7 @@ interface Props {
   onShowNotification: (msg: string) => void;
 }
 
-export function ImageEditor({ currentImage, defaultImage, hasOverride, onSave, onReset, onClose, onShowNotification }: Props) {
+export function ImageEditor({ currentImage, defaultImage: _defaultImage, hasOverride, onSave, onReset, onClose, onShowNotification }: Props) {
   const [url, setUrl] = useState(currentImage);
   const [tab, setTab] = useState<'url' | 'upload'>('url');
   const [uploading, setUploading] = useState(false);
@@ -100,13 +100,13 @@ export function ImageEditor({ currentImage, defaultImage, hasOverride, onSave, o
         <div className="flex gap-2">
           <button
             onClick={() => setTab('url')}
-            className={`flex-1 py-2 rounded-lg text-xs font-bold ${tab === 'url' ? 'bg-emerald-500 text-slate-950' : 'bg-slate-950 text-slate-400 border border-slate-800'}`}
+            className={`flex-1 py-2 rounded-lg text-xs font-bold ${tab === 'url' ? 'bg-accent text-slate-950' : 'bg-slate-950 text-slate-400 border border-slate-800'}`}
           >
             🔗 URL
           </button>
           <button
             onClick={() => setTab('upload')}
-            className={`flex-1 py-2 rounded-lg text-xs font-bold ${tab === 'upload' ? 'bg-emerald-500 text-slate-950' : 'bg-slate-950 text-slate-400 border border-slate-800'}`}
+            className={`flex-1 py-2 rounded-lg text-xs font-bold ${tab === 'upload' ? 'bg-accent text-slate-950' : 'bg-slate-950 text-slate-400 border border-slate-800'}`}
           >
             📷 Subir
           </button>
@@ -120,7 +120,7 @@ export function ImageEditor({ currentImage, defaultImage, hasOverride, onSave, o
               value={url}
               onChange={(e) => setUrl(e.target.value)}
               placeholder="https://ejemplo.com/imagen.jpg"
-              className="w-full bg-slate-950 border border-slate-800 p-2.5 rounded-xl text-slate-100 text-xs focus:outline-none focus:border-emerald-500/50"
+              className="w-full bg-slate-950 border border-slate-800 p-2.5 rounded-xl text-slate-100 text-xs focus:outline-none focus:border-accent/50"
             />
             <button
               onClick={handleSaveUrl}

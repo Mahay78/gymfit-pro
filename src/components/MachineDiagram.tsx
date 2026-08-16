@@ -26,6 +26,7 @@ const MACHINE_INFO: Record<MachineType, MachineInfo> = {
   legcurl:        { name: 'CURL FEMORAL',          primary: 'Isquiotibiales', secondary: 'Gemelos',     movement: 'Flexión' },
   seatedrow:      { name: 'REMO SENTADO',          primary: 'Dorsal',       secondary: 'Romboides',     movement: 'Tirón' },
   pecdeck:        { name: 'CONTRACTORA / PEC DECK', primary: 'Pectoral',    secondary: 'Deltoides',     movement: 'Cierre' },
+  reardelt:       { name: 'CONTRACTORA INVERTIDA',  primary: 'Deltoides Posterior', secondary: 'Tramo Superior', movement: 'Apertura' },
   hyperextension: { name: 'HIPEREXTENSIONES',      primary: 'Lumbares',     secondary: 'Glúteos',       movement: 'Extensión' },
   bicepcurl:      { name: 'CURL DE BÍCEPS',        primary: 'Bíceps',       secondary: 'Antebrazo',     movement: 'Flexión' },
   calfraise:      { name: 'ELEVACIÓN GEMELOS',     primary: 'Gemelos',      secondary: 'Sóleo',         movement: 'Elevación' },
@@ -38,11 +39,11 @@ const MACHINE_INFO: Record<MachineType, MachineInfo> = {
 
 const W = 320, H = 260;
 
-function Frame({ title, primary, secondary, movement, children }: MachineInfo & { children: React.ReactNode }) {
+function Frame({ name, primary, secondary, movement, children }: MachineInfo & { children: React.ReactNode }) {
   return (
     <svg viewBox={`0 0 ${W} ${H}`} className="w-full h-full">
       <defs>
-        <pattern id={`grid-${title}`} width="14" height="14" patternUnits="userSpaceOnUse">
+        <pattern id={`grid-${name}`} width="14" height="14" patternUnits="userSpaceOnUse">
           <path d="M 14 0 L 0 0 0 14" fill="none" stroke="#0f172a" strokeWidth="1" />
         </pattern>
         <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
@@ -61,12 +62,12 @@ function Frame({ title, primary, secondary, movement, children }: MachineInfo & 
       </defs>
 
       <rect width={W} height={H} fill="#020617" rx="10" />
-      <rect width={W} height={H} fill={`url(#grid-${title})`} rx="10" />
+      <rect width={W} height={H} fill={`url(#grid-${name})`} rx="10" />
 
       <rect x="0" y="0" width={W} height="26" fill="#0f172a" rx="10" />
       <rect x="0" y="16" width={W} height="10" fill="#0f172a" />
       <circle cx="14" cy="13" r="4" fill="#10b981" filter="url(#glow)" />
-      <text x="24" y="17" fontSize="9" fontWeight="bold" fill="#10b981" letterSpacing="1">{title}</text>
+      <text x="24" y="17" fontSize="9" fontWeight="bold" fill="#10b981" letterSpacing="1">{name}</text>
 
       <g>{children}</g>
 
@@ -99,10 +100,6 @@ function Frame({ title, primary, secondary, movement, children }: MachineInfo & 
   );
 }
 
-function Muscle({ cx, cy, rx = 18, ry = 10, fill = '#10b981', opacity = 0.5 }: { cx: number; cy: number; rx?: number; ry?: number; fill?: string; opacity?: number }) {
-  return <ellipse cx={cx} cy={cy} rx={rx} ry={ry} fill={fill} opacity={opacity} filter="url(#glow)" />;
-}
-
 function Arrow({ d }: { d: string }) {
   return <path d={d} fill="none" stroke="#fbbf24" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" markerEnd="url(#arrow)" />;
 }
@@ -122,7 +119,7 @@ export function MachineDiagram({ type, onShowNotification }: Props) {
       <>
         <div className="relative w-full overflow-hidden rounded-2xl bg-slate-950 border border-slate-800 shadow-2xl animate-fadeIn">
           <div className="px-3 pt-2 pb-1 flex items-center justify-between gap-2">
-            <p className="text-[9px] text-emerald-400 uppercase tracking-widest font-black">Foto real</p>
+            <p className="text-[9px] text-accent uppercase tracking-widest font-black">Foto real</p>
             <div className="flex items-center gap-2">
               <button
                 type="button"
@@ -135,7 +132,7 @@ export function MachineDiagram({ type, onShowNotification }: Props) {
               <button
                 type="button"
                 onClick={() => setUseSvg(true)}
-                className="text-[9px] text-slate-400 hover:text-emerald-400 uppercase font-bold tracking-wider active:scale-95"
+                className="text-[9px] text-slate-400 hover:text-accent uppercase font-bold tracking-wider active:scale-95"
               >
                 Diagrama →
               </button>
@@ -189,6 +186,7 @@ export function MachineDiagram({ type, onShowNotification }: Props) {
     case 'seatedrow':
       return <SeatedRow info={info} />;
     case 'pecdeck':
+    case 'reardelt':
       return <PecDeck info={info} />;
     case 'hyperextension':
       return <Hyperextension info={info} />;
@@ -209,7 +207,7 @@ export function MachineDiagram({ type, onShowNotification }: Props) {
   }
 }
 
-function LegPressSquat({ info, isHack }: { info: MachineInfo; isHack: boolean }) {
+function LegPressSquat({ info, isHack: _isHack }: { info: MachineInfo; isHack: boolean }) {
   return (
     <Frame {...info}>
       {/* Pista/sled rails */}

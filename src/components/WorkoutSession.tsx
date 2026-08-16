@@ -52,39 +52,47 @@ function SetRow({
   onUpdateSetValues: (exId: string, sIdx: number, field: 'weight' | 'reps', delta: number) => void;
   onHandleRpeChange: (exId: string, sIdx: number, rpe: number) => void;
 }) {
+  const rpeColor = (r: number) => (r <= 7 ? '#22c55e' : r === 8 ? '#eab308' : r === 9 ? '#f97316' : '#ef4444');
   return (
-    <div className={`grid grid-cols-12 items-center p-2 rounded-xl border text-center text-xs ${set.completed ? 'bg-emerald-950/20 border-emerald-500/30' : 'bg-slate-950 border-slate-850'}`}>
-      <span className="col-span-1 text-left pl-1 font-bold text-[10px]">#{set.setNumber}</span>
+    <div className={`rounded-xl border text-center text-xs ${set.completed ? 'bg-emerald-950/20 border-emerald-500/30' : 'bg-slate-950 border-slate-850'}`}>
+      <div className={`grid grid-cols-12 items-center p-2 ${set.completed ? 'opacity-60' : ''}`}>
+        <span className="col-span-1 text-left pl-1 font-bold text-[10px]">#{set.setNumber}</span>
 
-      <div className="col-span-4 flex items-center justify-center gap-1">
-        <button type="button" disabled={set.completed} onClick={() => onUpdateSetValues(exId, sIdx, 'weight', -2.5)}
-          className="w-8 h-8 sm:w-9 sm:h-9 bg-slate-900 text-sm font-bold rounded border border-slate-800 active:scale-95 transition-transform">−</button>
-        <span className="font-mono font-bold min-w-[28px] text-sm">{set.weight}</span>
-        <button type="button" disabled={set.completed} onClick={() => onUpdateSetValues(exId, sIdx, 'weight', 2.5)}
-          className="w-8 h-8 sm:w-9 sm:h-9 bg-slate-900 text-sm font-bold rounded border border-slate-800 active:scale-95 transition-transform">+</button>
+        <div className="col-span-4 flex items-center justify-center gap-1">
+          <button type="button" disabled={set.completed} onClick={() => onUpdateSetValues(exId, sIdx, 'weight', -2.5)}
+            className="w-8 h-8 sm:w-9 sm:h-9 bg-slate-900 text-sm font-bold rounded border border-slate-800 active:scale-95 transition-transform">−</button>
+          <span className="font-mono font-bold min-w-[28px] text-sm">{set.weight}</span>
+          <button type="button" disabled={set.completed} onClick={() => onUpdateSetValues(exId, sIdx, 'weight', 2.5)}
+            className="w-8 h-8 sm:w-9 sm:h-9 bg-slate-900 text-sm font-bold rounded border border-slate-800 active:scale-95 transition-transform">+</button>
+        </div>
+
+        <div className="col-span-3 flex items-center justify-center gap-1">
+          <button type="button" disabled={set.completed} onClick={() => onUpdateSetValues(exId, sIdx, 'reps', -1)}
+            className="w-8 h-8 sm:w-9 sm:h-9 bg-slate-900 text-sm font-bold rounded border border-slate-800 active:scale-95 transition-transform">−</button>
+          <span className="font-mono font-bold min-w-[20px] text-sm">{set.reps}</span>
+          <button type="button" disabled={set.completed} onClick={() => onUpdateSetValues(exId, sIdx, 'reps', 1)}
+            className="w-8 h-8 sm:w-9 sm:h-9 bg-slate-900 text-sm font-bold rounded border border-slate-800 active:scale-95 transition-transform">+</button>
+        </div>
+
+        <div className="col-span-4 flex justify-center">
+          <button type="button" onClick={() => onToggleSetCompleted(exId, sIdx)}
+            className={`w-9 h-9 rounded-lg flex items-center justify-center transition-all active:scale-95 ${set.completed ? 'bg-emerald-500 text-slate-950 set-done-pop' : 'bg-slate-900 border border-slate-700 text-transparent'}`}>
+            ✓
+          </button>
+        </div>
       </div>
 
-      <div className="col-span-3 flex items-center justify-center gap-1">
-        <button type="button" disabled={set.completed} onClick={() => onUpdateSetValues(exId, sIdx, 'reps', -1)}
-          className="w-8 h-8 sm:w-9 sm:h-9 bg-slate-900 text-sm font-bold rounded border border-slate-800 active:scale-95 transition-transform">−</button>
-        <span className="font-mono font-bold min-w-[20px] text-sm">{set.reps}</span>
-        <button type="button" disabled={set.completed} onClick={() => onUpdateSetValues(exId, sIdx, 'reps', 1)}
-          className="w-8 h-8 sm:w-9 sm:h-9 bg-slate-900 text-sm font-bold rounded border border-slate-800 active:scale-95 transition-transform">+</button>
-      </div>
-
-      <div className="col-span-2 flex items-center justify-center">
-        <select disabled={set.completed} value={set.rpe}
-          onChange={(e) => onHandleRpeChange(exId, sIdx, parseInt(e.target.value))}
-          className="bg-slate-900 text-[10px] text-slate-300 rounded p-1 border border-slate-800 font-mono font-bold focus:outline-none min-h-[32px]">
-          {[6, 7, 8, 9, 10].map(r => <option key={r} value={r}>RPE {r}</option>)}
-        </select>
-      </div>
-
-      <div className="col-span-2 flex justify-center">
-        <button type="button" onClick={() => onToggleSetCompleted(exId, sIdx)}
-          className={`w-9 h-9 rounded-lg flex items-center justify-center transition-all active:scale-95 ${set.completed ? 'bg-emerald-500 text-slate-950' : 'bg-slate-900 border border-slate-700 text-transparent'}`}>
-          ✓
-        </button>
+      <div className="px-3 pb-2.5">
+        <div className="flex items-center gap-2">
+          <span className="text-[9px] uppercase font-bold text-slate-500 whitespace-nowrap">Esfuerzo</span>
+          <input
+            type="range" min={6} max={10} step={1} value={set.rpe} disabled={set.completed}
+            onChange={(e) => onHandleRpeChange(exId, sIdx, parseInt(e.target.value))}
+            className="flex-1 h-1.5 rounded-full appearance-none cursor-pointer disabled:opacity-40"
+            style={{ accentColor: rpeColor(set.rpe), background: `linear-gradient(to right, ${rpeColor(set.rpe)} ${((set.rpe - 6) / 4) * 100}%, #334155 ${((set.rpe - 6) / 4) * 100}%)` }}
+          />
+          <span className="text-[10px] font-black font-mono w-12 text-right" style={{ color: rpeColor(set.rpe) }}>RPE {set.rpe}</span>
+        </div>
       </div>
     </div>
   );
@@ -92,10 +100,10 @@ function SetRow({
 
 export function WorkoutSession({
   workout, workoutActive, workoutPhase, activeWorkoutTime,
-  timerLeft, initialTimerLeft, _timerRunning, _timerTotal,
+  timerLeft, initialTimerLeft, timerRunning: _timerRunning, timerTotal,
   cardioTimeLeft, cardioTimerRunning, completedWarmupSteps, swappedExercises,
   dailyWater, selectedCardioType, soundEnabled, soundType, history,
-  onProceedToLifting, onProceedToCardio, onFinishWorkout, _onCancelWorkout,
+  onProceedToLifting, onProceedToCardio, onFinishWorkout, onCancelWorkout: _onCancelWorkout,
   onToggleWarmupStep, onToggleSetCompleted, onToggleSwapExercise,
   onUpdateSetValues, onHandleRpeChange,
   onSetTimerRunning, onSetTimerLeft, onSetCardioTimerRunning,
@@ -119,7 +127,7 @@ export function WorkoutSession({
   }
 
   return (
-    <div className="space-y-4 animate-fadeIn">
+    <div className="space-y-4 animate-fadeIn workout-landscape">
       <PhaseIndicator workoutPhase={workoutPhase} />
 
       <div className="bg-slate-900 border border-slate-800 rounded-2xl p-3.5 flex justify-between items-center text-xs">
@@ -176,6 +184,7 @@ export function WorkoutSession({
           onSetCardioTimeLeft={onSetCardioTimerRunning}
           onSetSelectedCardioType={onSetSelectedCardioType}
           onFinish={onFinishWorkout}
+          soundEnabled={soundEnabled}
         />
       )}
     </div>
@@ -189,13 +198,13 @@ function PhaseIndicator({ workoutPhase }: { workoutPhase: string }) {
     { key: 'cardio', num: 3, label: 'Cardio' },
   ];
   return (
-    <div className="bg-slate-900 border border-slate-800 rounded-3xl p-4 flex justify-between items-center text-xs">
+    <div className="bg-slate-900 border border-slate-800 rounded-3xl p-4 flex justify-between items-center text-xs phase-indicator">
       {phases.map((p, i) => (
         <div key={p.key} className="flex items-center gap-1.5">
           <span className={`w-5 h-5 rounded-full flex items-center justify-center font-bold text-[9px] ${
-            workoutPhase === p.key ? 'bg-emerald-500 text-slate-950' : 'bg-slate-850 text-slate-400'
+            workoutPhase === p.key ? 'bg-accent text-slate-950' : 'bg-slate-850 text-slate-400'
           }`}>{p.num}</span>
-          <span className={workoutPhase === p.key ? 'font-bold text-emerald-400' : 'text-slate-400'}>{p.label}</span>
+          <span className={workoutPhase === p.key ? 'font-bold text-accent' : 'text-slate-400'}>{p.label}</span>
           {i < phases.length - 1 && <div className="w-4 h-px bg-slate-800" />}
         </div>
       ))}
@@ -207,17 +216,17 @@ function VictoryScreen({ activeWorkoutTime, onFinish }: { activeWorkoutTime: num
   const [notes, setNotes] = useState('');
 
   return (
-    <div className="bg-slate-900 border-2 border-emerald-500/40 rounded-3xl p-6 text-center space-y-5 shadow-2xl relative overflow-hidden animate-bounceIn">
-      <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-emerald-500/5 to-transparent pointer-events-none" />
+    <div className="bg-slate-900 border-2 border-accent/40 rounded-3xl p-6 text-center space-y-5 shadow-2xl relative overflow-hidden animate-bounceIn">
+      <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-accent/5 to-transparent pointer-events-none" />
       <div className="text-5xl animate-bounce">🏆</div>
       <div className="space-y-1">
-        <h2 className="text-xl font-black text-emerald-400">ENTRENAMIENTO COMPLETADO!</h2>
+        <h2 className="text-xl font-black text-accent">ENTRENAMIENTO COMPLETADO!</h2>
         <p className="text-xs text-slate-400">Has completado las 3 fases: Calentamiento, Fuerza y Cardio Final.</p>
       </div>
       <div className="grid grid-cols-2 gap-3 max-w-sm mx-auto text-xs pt-2">
         <div className="bg-slate-950 p-3.5 rounded-2xl border border-slate-850">
           <p className="text-slate-500 uppercase font-extrabold text-[9px]">Gasto Estimado</p>
-          <p className="text-base font-black text-emerald-400 mt-1">~550 kcal</p>
+          <p className="text-base font-black text-accent mt-1">~550 kcal</p>
         </div>
         <div className="bg-slate-950 p-3.5 rounded-2xl border border-slate-850">
           <p className="text-slate-500 uppercase font-extrabold text-[9px]">Tiempo Total</p>
@@ -242,7 +251,7 @@ function VictoryScreen({ activeWorkoutTime, onFinish }: { activeWorkoutTime: num
 
       <button
         onClick={() => onFinish(notes)}
-        className="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black py-3 rounded-xl text-xs shadow-lg"
+        className="w-full bg-accent hover:opacity-90 text-slate-950 font-black py-3 rounded-xl text-xs shadow-lg"
       >
         Guardar y Ver Progreso
       </button>
@@ -260,7 +269,7 @@ function WarmupPhase({
   return (
     <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 space-y-4 shadow-xl">
       <div className="border-b border-slate-800 pb-3">
-        <span className="text-emerald-400 text-[10px] font-bold uppercase tracking-wider">Fase de Inicio</span>
+        <span className="text-accent text-[10px] font-bold uppercase tracking-wider">Fase de Inicio</span>
         <h3 className="text-base font-black">Calentamiento de Prevención y Activación</h3>
         <p className="text-xs text-slate-400 mt-1">Completa los siguientes pasos marcando cada casilla para habilitar el bloque de pesas.</p>
       </div>
@@ -286,7 +295,7 @@ function WarmupPhase({
         ))}
       </div>
       <button onClick={onProceed}
-        className="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black py-3.5 rounded-xl text-xs transition-colors">
+        className="w-full bg-accent hover:opacity-90 text-slate-950 font-black py-3.5 rounded-xl text-xs transition-colors">
         Completar Calentamiento → Ir a Máquinas
       </button>
     </div>
@@ -294,8 +303,8 @@ function WarmupPhase({
 }
 
 function LiftingPhase({
-  workout, timerLeft, initialTimerLeft, _timerTotal,
-  swappedExercises, _soundEnabled, _soundType, history,
+  workout, timerLeft, initialTimerLeft, timerTotal: _timerTotal,
+  swappedExercises, soundEnabled: _soundEnabled, soundType: _soundType, history,
   onToggleSetCompleted, onToggleSwapExercise,
   onUpdateSetValues, onHandleRpeChange,
   onSetTimerRunning, onSetTimerLeft,
@@ -322,21 +331,21 @@ function LiftingPhase({
   onShowNotification: (msg: string) => void;
 }) {
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 lifting-landscape">
       {timerLeft > 0 && (
-        <div className="bg-slate-900 border border-emerald-500/20 rounded-2xl p-4 flex items-center justify-between shadow-lg relative overflow-hidden">
+        <div className="bg-slate-900 border border-accent/20 rounded-2xl p-4 flex items-center justify-between shadow-lg relative overflow-hidden">
           <div className="flex items-center gap-3.5">
             <div className="relative w-12 h-12 flex items-center justify-center">
               <svg className="absolute w-full h-full transform -rotate-90">
                 <circle cx="24" cy="24" r="20" className="stroke-slate-800" strokeWidth="3" fill="transparent" />
                 <circle cx="24" cy="24" r="20"
-                  className="stroke-emerald-500 transition-all duration-1000" strokeWidth="3" fill="transparent"
+                  className="stroke-accent transition-all duration-1000" strokeWidth="3" fill="transparent"
                   strokeDasharray={125.6} strokeDashoffset={125.6 - (125.6 * timerLeft) / (initialTimerLeft || 1)} />
               </svg>
-              <span className="text-xs font-black text-emerald-400 font-mono">{timerLeft}s</span>
+              <span className="text-xs font-black text-accent font-mono">{timerLeft}s</span>
             </div>
             <div>
-              <p className="text-[9px] text-slate-400 uppercase font-bold">Descanso entre series</p>
+              <p className="text-[9px] text-accent uppercase font-bold">Descanso entre series</p>
               <p className="text-xs font-semibold text-slate-200">Recupérate para la próxima carga!</p>
             </div>
           </div>
@@ -354,7 +363,7 @@ function LiftingPhase({
           const activeName = isSwapped ? ex.alternativeName : ex.name;
 
           return (
-            <div key={ex.id} className={`bg-slate-900 border rounded-3xl p-5 shadow-lg ${allDone ? 'border-emerald-500/20 bg-emerald-950/5' : 'border-slate-800'}`}>
+            <div key={ex.id} className={`bg-slate-900 border rounded-3xl p-5 shadow-lg exercise-card ${allDone ? 'border-emerald-500/20 bg-emerald-950/5' : 'border-slate-800'}`}>
               <div className="pb-3 border-b border-slate-800/80 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <div>
                   <h3 className="text-sm font-black text-slate-100">{exIdx + 1}. {activeName}</h3>
@@ -362,7 +371,7 @@ function LiftingPhase({
                 </div>
                 <div className="flex items-center gap-2">
                   <button type="button" onClick={() => { onShowMachine(ex.machineType); onShowNotification(`Abriendo plano de ${ex.name}`); }}
-                    className="p-1.5 bg-slate-950 hover:bg-slate-850 border border-slate-800 rounded-lg text-[10px] text-emerald-400 flex items-center gap-1 font-black shadow-sm">
+                      className="p-1.5 bg-slate-950 hover:bg-slate-850 border border-slate-800 rounded-lg text-[10px] text-accent flex items-center gap-1 font-black shadow-sm">
                     Plano
                   </button>
                   <button type="button" onClick={() => onOpenPlateCalculator({ id: ex.id, name: ex.name, machineBase: ex.machineBase })}
@@ -376,7 +385,7 @@ function LiftingPhase({
                     }`}>
                     {isSwapped ? 'Máquina Swapped' : 'Ocupada'}
                   </button>
-                  {allDone && <span className="text-[10px] bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded-full font-bold">Hecho</span>}
+                   {allDone && <span className="text-[10px] bg-accent/15 text-accent px-2 py-0.5 rounded-full font-bold">Hecho</span>}
                 </div>
               </div>
 
@@ -385,8 +394,7 @@ function LiftingPhase({
                   <span className="col-span-1 text-left pl-1">Serie</span>
                   <span className="col-span-4">Carga (kg)</span>
                   <span className="col-span-3">Reps</span>
-                  <span className="col-span-2">RPE</span>
-                  <span className="col-span-2">Log</span>
+                  <span className="col-span-4">Log</span>
                 </div>
                 {ex.sets.map((set, sIdx) => (
                   <SetRow key={sIdx} exId={ex.id} set={set} sIdx={sIdx}
@@ -407,7 +415,7 @@ function LiftingPhase({
       </div>
 
       <button onClick={onProceedToCardio}
-        className="w-full bg-gradient-to-r from-emerald-500 to-teal-400 text-slate-950 font-black py-4 rounded-2xl text-xs transition-all shadow-lg">
+        className="w-full bg-gradient-to-r from-accent to-accent/70 text-slate-950 font-black py-4 rounded-2xl text-xs transition-all shadow-lg">
         Terminar Fuerza → Iniciar Cardio Final (30 min)
       </button>
     </div>
@@ -433,7 +441,7 @@ function CardioPhase({
   return (
     <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-xl space-y-4">
       <div className="border-b border-slate-800 pb-3">
-        <span className="text-emerald-400 text-[10px] font-bold uppercase tracking-wider">Fase Final de Oxidación</span>
+        <span className="text-accent text-[10px] font-bold uppercase tracking-wider">Fase Final de Oxidación</span>
         <h3 className="text-base font-black">Cardio Guiado de 30 Minutos</h3>
         <p className="text-xs text-slate-400 mt-1">Con el glucógeno bajo por las pesas, estos 30 minutos maximizan la quema de ácidos grasos.</p>
       </div>
@@ -444,11 +452,11 @@ function CardioPhase({
           {CARDIO_OPTIONS.map(opt => (
             <div key={opt.id} onClick={() => onSetSelectedCardioType(opt.name)}
               className={`p-3 rounded-xl border cursor-pointer transition-all ${
-                selectedCardioType === opt.name ? 'bg-emerald-950/20 border-emerald-500/40 text-emerald-200' : 'bg-slate-950 border-slate-850 text-slate-400'
+                selectedCardioType === opt.name ? 'bg-accent/15 border-accent/40 text-accent' : 'bg-slate-950 border-slate-850 text-slate-400'
               }`}>
               <p className="font-bold text-slate-200">{opt.name}</p>
               <p className="text-[10px] text-slate-500 mt-1">{opt.details}</p>
-              <p className="text-[9px] text-emerald-400 font-bold mt-1">Quema est.: {opt.avgCals} kcal</p>
+              <p className="text-[9px] text-accent font-bold mt-1">Quema est.: {opt.avgCals} kcal</p>
             </div>
           ))}
         </div>
@@ -456,11 +464,11 @@ function CardioPhase({
 
       <div className="bg-slate-950 border border-slate-850 rounded-2xl p-6 text-center space-y-3">
         <p className="text-[10px] text-slate-500 uppercase tracking-widest font-bold">Tiempo Restante de Cardio</p>
-        <p className="text-4xl font-black font-mono text-emerald-400">{formatTime(cardioTimeLeft)}</p>
+        <p className="text-4xl font-black font-mono text-accent">{formatTime(cardioTimeLeft)}</p>
         <div className="flex justify-center gap-3">
           <button onClick={() => onSetCardioTimerRunning(!cardioTimerRunning)}
             className={`px-6 py-2 rounded-xl text-xs font-bold transition-all ${
-              cardioTimerRunning ? 'bg-amber-500 text-slate-950' : 'bg-emerald-500 text-slate-950'
+              cardioTimerRunning ? 'bg-amber-500 text-slate-950' : 'bg-accent text-slate-950'
             }`}>
             {cardioTimerRunning ? 'Pausar Tiempo' : 'Reanudar Tiempo'}
           </button>
@@ -478,8 +486,8 @@ function CardioPhase({
         <span className="text-base">🔥</span> HIIT Timer (Intervalos)
       </button>
 
-      <button onClick={onFinish}
-        className="w-full bg-emerald-500 text-slate-950 font-black py-4 rounded-2xl text-xs shadow-lg">
+      <button onClick={() => onFinish('')}
+        className="w-full bg-accent text-slate-950 font-black py-4 rounded-2xl text-xs shadow-lg">
         Terminar Todo y Registrar Entrenamiento
       </button>
 

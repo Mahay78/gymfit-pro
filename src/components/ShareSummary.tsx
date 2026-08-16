@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import type { HistoryItem } from '../types';
 import { calculateStreak } from '../utils/analytics';
 
@@ -10,8 +9,6 @@ interface Props {
 }
 
 export function ShareSummary({ history, userWeight, startWeight, onShowNotification }: Props) {
-  const [open, setOpen] = useState(false);
-  const [imgUrl, setImgUrl] = useState<string | null>(null);
   const streak = calculateStreak(history);
 
   const generateSummary = () => {
@@ -56,7 +53,7 @@ export function ShareSummary({ history, userWeight, startWeight, onShowNotificat
     <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-xl">
       <div className="flex items-center justify-between">
         <div>
-          <span className="text-emerald-400 text-[10px] font-bold uppercase tracking-wider">Compartir</span>
+          <span className="text-accent text-[10px] font-bold uppercase tracking-wider">Compartir</span>
           <h3 className="text-base font-black">Mi Progreso</h3>
           <p className="text-[10px] text-slate-500 mt-0.5">Comparte tu racha con amigos</p>
         </div>

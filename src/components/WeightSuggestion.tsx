@@ -13,7 +13,7 @@ export function WeightSuggestion({ exerciseId, currentWeight, history, onApply }
   if (!rec) return null;
 
   const colorMap = {
-    increase: { bg: 'bg-emerald-500/10', border: 'border-emerald-500/30', text: 'text-emerald-400' },
+    increase: { bg: 'bg-accent/10', border: 'border-accent/30', text: 'text-accent' },
     maintain: { bg: 'bg-slate-800/40', border: 'border-slate-700', text: 'text-slate-400' },
     decrease: { bg: 'bg-amber-500/10', border: 'border-amber-500/30', text: 'text-amber-400' },
   };

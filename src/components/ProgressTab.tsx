@@ -126,7 +126,7 @@ const lastMonthStats = getWorkoutStatsSince(history, 1);
                   <p className="text-[10px] text-slate-500">Hace 30 días</p>
                 </div>
                 <div className="text-right">
-                  <p className="text-sm font-black text-emerald-400">{lastMonthStats.workoutCount} entrenos</p>
+                  <p className="text-sm font-black text-accent">{lastMonthStats.workoutCount} entrenos</p>
                   <p className="text-[10px] text-slate-400">{(lastMonthStats.totalVolume / 1000).toFixed(1)}t</p>
                 </div>
               </div>
@@ -149,14 +149,14 @@ const lastMonthStats = getWorkoutStatsSince(history, 1);
 
       {/* Estadísticas mensuales */}
       <div>
-        <h2 className="text-xs font-black text-emerald-400 uppercase tracking-wider mb-2 px-1">Resumen del Mes</h2>
+        <h2 className="text-xs font-black text-accent uppercase tracking-wider mb-2 px-1">Resumen del Mes</h2>
         <MonthlyStats history={history} />
       </div>
 
       {/* Calendario de asistencia */}
       <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-xl space-y-4">
         <div>
-          <span className="text-emerald-400 text-[10px] font-bold uppercase tracking-wider">Asistencia</span>
+          <span className="text-accent text-[10px] font-bold uppercase tracking-wider">Asistencia</span>
           <h3 className="text-base font-black">Calendario de Entrenamientos</h3>
         </div>
         <AttendanceCalendar history={history} />
@@ -166,7 +166,7 @@ const lastMonthStats = getWorkoutStatsSince(history, 1);
       <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-xl space-y-4">
         <div className="flex items-center justify-between">
           <div>
-            <span className="text-emerald-400 text-[10px] font-bold uppercase tracking-wider">Control de Peso</span>
+            <span className="text-accent text-[10px] font-bold uppercase tracking-wider">Control de Peso</span>
             <h3 className="text-base font-black">Peso Corporal: {userWeight} kg</h3>
           </div>
         </div>
@@ -187,7 +187,7 @@ const lastMonthStats = getWorkoutStatsSince(history, 1);
       {/* Gráfica de volumen por sesión */}
       <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-xl space-y-4">
         <div>
-          <span className="text-emerald-400 text-[10px] font-bold uppercase tracking-wider">Volumen de Entrenamiento</span>
+          <span className="text-accent text-[10px] font-bold uppercase tracking-wider">Volumen de Entrenamiento</span>
           <h3 className="text-base font-black">Últimas 10 sesiones</h3>
           <p className="text-[11px] text-slate-400">Mantener volumen estable = músculo preservado en déficit.</p>
         </div>
@@ -197,7 +197,7 @@ const lastMonthStats = getWorkoutStatsSince(history, 1);
       {/* Records personales */}
       <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-xl space-y-4">
         <div>
-          <span className="text-emerald-400 text-[10px] font-bold uppercase tracking-wider">Records Personales</span>
+          <span className="text-accent text-[10px] font-bold uppercase tracking-wider">Records Personales</span>
           <h3 className="text-base font-black">🏆 Tus mejores marcas</h3>
           <p className="text-[11px] text-slate-400">1RM estimado con fórmula Epley. La flecha indica tendencia.</p>
         </div>
@@ -207,7 +207,7 @@ const lastMonthStats = getWorkoutStatsSince(history, 1);
       {/* Medidas corporales */}
       <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-xl space-y-4">
         <div>
-          <span className="text-emerald-400 text-[10px] font-bold uppercase tracking-wider">Monitoreo de Volumen</span>
+          <span className="text-accent text-[10px] font-bold uppercase tracking-wider">Monitoreo de Volumen</span>
           <h3 className="text-base font-black">Registro de Medidas Corporales (cm)</h3>
         </div>
 
@@ -295,7 +295,7 @@ const lastMonthStats = getWorkoutStatsSince(history, 1);
                 </div>
                 <div className="flex gap-3 text-[10px]">
                   <span className="text-slate-400">⏱️ {h.duration}</span>
-                  <span className="text-emerald-400 font-mono font-bold">📊 {h.totalVolume} kg</span>
+                  <span className="text-accent font-mono font-bold">📊 {h.totalVolume} kg</span>
                   <span className="text-cyan-400">✅ {h.completedExercises} ej</span>
                   {h.weight > 0 && <span className="text-amber-400">⚖️ {h.weight}kg</span>}
                 </div>

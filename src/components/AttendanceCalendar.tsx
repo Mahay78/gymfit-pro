@@ -68,7 +68,7 @@ export function AttendanceCalendar({ history }: Props) {
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between">
-        <button onClick={goPrev} className="text-slate-400 hover:text-emerald-400 p-1">
+        <button onClick={goPrev} className="text-slate-400 hover:text-accent p-1">
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
             <path d="M15 19l-7-7 7-7" />
           </svg>
@@ -76,7 +76,7 @@ export function AttendanceCalendar({ history }: Props) {
         <button onClick={goToday} className="text-sm font-black text-slate-100">
           {months[viewMonth]} {viewYear}
         </button>
-        <button onClick={goNext} className="text-slate-400 hover:text-emerald-400 p-1">
+        <button onClick={goNext} className="text-slate-400 hover:text-accent p-1">
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
             <path d="M9 5l7 7-7 7" />
           </svg>
@@ -101,9 +101,9 @@ export function AttendanceCalendar({ history }: Props) {
               key={i}
               className={`aspect-square flex items-center justify-center text-[10px] rounded-lg font-bold transition-all ${
                 trained
-                  ? 'bg-emerald-500 text-slate-950 shadow-md shadow-emerald-500/20'
+                  ? 'bg-accent text-slate-950 shadow-md shadow-accent/20'
                   : isToday
-                    ? 'bg-slate-800 text-emerald-400 border border-emerald-500/40'
+                    ? 'bg-slate-800 text-accent border border-accent/40'
                     : 'text-slate-500'
               }`}
             >
@@ -119,7 +119,7 @@ export function AttendanceCalendar({ history }: Props) {
           <span>Entrenado</span>
         </div>
         <div className="flex items-center gap-1.5">
-          <div className="w-3 h-3 rounded border border-emerald-500/40 bg-slate-800" />
+          <div className="w-3 h-3 rounded border border-accent/40 bg-slate-800" />
           <span>Hoy</span>
         </div>
       </div>

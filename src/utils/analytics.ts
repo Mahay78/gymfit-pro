@@ -128,7 +128,7 @@ export function getWorkoutStatsSince(
 
   let totalVolume = 0;
   let workoutCount = 0;
-  let mostRecent: Date | null = null;
+  let mostRecent: number | null = null;
 
   history.forEach(h => {
     const d = parseDate(h.date);
@@ -136,7 +136,8 @@ export function getWorkoutStatsSince(
     if (d >= cutoff) {
       totalVolume += h.totalVolume;
       workoutCount++;
-      if (!mostRecent || d > mostRecent) mostRecent = d;
+      const t = d.getTime();
+      if (mostRecent === null || t > mostRecent) mostRecent = t;
     }
   });
 
@@ -145,6 +146,6 @@ export function getWorkoutStatsSince(
   return {
     totalVolume,
     workoutCount,
-    daysSince: mostRecent ? Math.floor((Date.now() - mostRecent.getTime()) / 86400000) : 0,
+    daysSince: mostRecent !== null ? Math.floor((Date.now() - mostRecent) / 86400000) : 0,
   };
 }

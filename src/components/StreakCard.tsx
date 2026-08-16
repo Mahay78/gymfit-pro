@@ -39,7 +39,7 @@ export function StreakCard({ history, onStartWorkout }: Props) {
             </p>
           )}
           {streak.perfectWeek && (
-            <p className="text-[10px] text-emerald-400 mt-1">🌟 ¡Semana perfecta! 3/3 días</p>
+            <p className="text-[10px] text-accent mt-1">🌟 ¡Semana perfecta! 3/3 días</p>
           )}
         </div>
         <div className="flex flex-col gap-1.5">

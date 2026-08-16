@@ -56,10 +56,10 @@ export function PRTracker({ history, customWeights }: Props) {
           </div>
           <div className="flex items-center gap-3">
             <div className="text-right">
-              <p className="text-base font-black text-emerald-400 font-mono">{pr.oneRepMax}kg</p>
+              <p className="text-base font-black text-accent font-mono">{pr.oneRepMax}kg</p>
               <p className="text-[9px] text-slate-500 uppercase">1RM est.</p>
             </div>
-            {pr.trend === 'up' && <span className="text-emerald-400 text-sm">↑</span>}
+            {pr.trend === 'up' && <span className="text-accent text-sm">↑</span>}
             {pr.trend === 'down' && <span className="text-rose-400 text-sm">↓</span>}
             {pr.trend === 'same' && <span className="text-slate-500 text-sm">=</span>}
           </div>

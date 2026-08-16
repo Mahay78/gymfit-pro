@@ -1,5 +1,7 @@
 import { useRef } from 'react';
 import type { Theme } from '../hooks/useTheme';
+import type { AccentName } from '../hooks/useAccent';
+import { ACCENTS } from '../hooks/useAccent';
 import { downloadExport, importData } from '../utils/exportImport';
 
 interface Props {
@@ -8,11 +10,13 @@ interface Props {
   timerTotal: number;
   hapticsEnabled: boolean;
   theme: Theme;
+  accent: AccentName;
   onSoundToggle: () => void;
   onSoundTypeChange: (t: string) => void;
   onTimerTotalChange: (t: number) => void;
   onHapticsToggle: () => void;
   onThemeCycle: () => void;
+  onAccentChange: (a: AccentName) => void;
   onPlaySound: (type: string) => void;
   onResetAll: () => void;
   onResetAllImages: () => void;
@@ -38,9 +42,9 @@ const themeIcons: Record<Theme, string> = {
 };
 
 export function SettingsTab({
-  soundEnabled, soundType, timerTotal, hapticsEnabled, theme,
+  soundEnabled, soundType, timerTotal, hapticsEnabled, theme, accent,
   onSoundToggle, onSoundTypeChange, onTimerTotalChange,
-  onHapticsToggle, onThemeCycle,
+  onHapticsToggle, onThemeCycle, onAccentChange,
   onPlaySound, onResetAll, onResetAllImages, onShowNotification,
 }: Props) {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -75,6 +79,24 @@ export function SettingsTab({
             <span className="font-bold text-slate-200">{themeLabels[theme]}</span>
           </div>
         </button>
+
+        <div>
+          <p className="text-[10px] text-slate-500 mb-2">Color de acento</p>
+          <div className="flex gap-2 flex-wrap">
+            {ACCENTS.map(a => (
+              <button
+                key={a.name}
+                onClick={() => { onAccentChange(a.name); onShowNotification(`Acento: ${a.label}`); }}
+                className={`w-10 h-10 rounded-full border-2 transition-all active:scale-90 ${accent === a.name ? 'border-slate-200 scale-110' : 'border-slate-800'}`}
+                style={{ backgroundColor: a.hex }}
+                title={a.label}
+                aria-label={`Acento ${a.label}`}
+              >
+                {accent === a.name && <span className="text-slate-950 font-black text-sm">✓</span>}
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
 
       {/* Sonido y Vibración */}
@@ -91,7 +113,7 @@ export function SettingsTab({
               onSoundToggle();
               onShowNotification(soundEnabled ? "Sonidos Silenciados" : "Sonidos Activados");
             }}
-            className={`px-3 py-1.5 rounded-lg text-xs font-bold ${soundEnabled ? 'bg-emerald-500 text-slate-950' : 'bg-slate-800 text-slate-400'}`}
+            className={`px-3 py-1.5 rounded-lg text-xs font-bold ${soundEnabled ? 'bg-accent text-slate-950' : 'bg-slate-800 text-slate-400'}`}
           >
             {soundEnabled ? 'ON' : 'OFF'}
           </button>
@@ -107,7 +129,7 @@ export function SettingsTab({
               onHapticsToggle();
               onShowNotification(hapticsEnabled ? "Vibración desactivada" : "Vibración activada");
             }}
-            className={`px-3 py-1.5 rounded-lg text-xs font-bold ${hapticsEnabled ? 'bg-emerald-500 text-slate-950' : 'bg-slate-800 text-slate-400'}`}
+            className={`px-3 py-1.5 rounded-lg text-xs font-bold ${hapticsEnabled ? 'bg-accent text-slate-950' : 'bg-slate-800 text-slate-400'}`}
           >
             {hapticsEnabled ? 'ON' : 'OFF'}
           </button>
@@ -120,7 +142,7 @@ export function SettingsTab({
               onClick={() => { onSoundTypeChange(style.id); onPlaySound(style.id); }}
               className={`p-2.5 rounded-xl border font-bold transition-all ${
                 soundType === style.id
-                  ? 'bg-emerald-500 text-slate-950 border-emerald-400'
+                  ? 'bg-accent text-slate-950 border-accent/40'
                   : 'bg-slate-950 border-slate-850 text-slate-300'
               }`}
             >
@@ -138,7 +160,7 @@ export function SettingsTab({
             <button
               key={sec}
               onClick={() => { onTimerTotalChange(sec); onShowNotification(`Descanso: ${sec}s`); }}
-              className={`py-2 rounded-xl font-bold border ${timerTotal === sec ? 'bg-emerald-500 text-slate-950 border-emerald-400' : 'bg-slate-950 border-slate-850'}`}
+              className={`py-2 rounded-xl font-bold border ${timerTotal === sec ? 'bg-accent text-slate-950 border-accent/40' : 'bg-slate-950 border-slate-850'}`}
             >
               {sec}s
             </button>
@@ -153,7 +175,7 @@ export function SettingsTab({
         <div className="grid grid-cols-2 gap-2">
           <button
             onClick={() => { downloadExport(); onShowNotification("Backup descargado"); }}
-            className="bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 py-2.5 rounded-xl text-xs font-bold hover:bg-emerald-500/20"
+            className="bg-accent/10 border border-accent/30 text-accent py-2.5 rounded-xl text-xs font-bold hover:bg-accent/15"
           >
             📥 Exportar
           </button>

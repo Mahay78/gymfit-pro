@@ -1,8 +1,8 @@
 export type MachineType =
   | 'legpress' | 'pulldown' | 'chestpress' | 'legextension'
   | 'lateralraise' | 'crunch' | 'legcurl' | 'seatedrow'
-  | 'pecdeck' | 'hyperextension' | 'bicepcurl' | 'calfraise'
-  | 'hacksquat' | 'shoulderpress' | 'tricepspushdown'
+  | 'pecdeck' | 'reardelt' | 'hyperextension' | 'bicepcurl'
+  | 'calfraise' | 'hacksquat' | 'shoulderpress' | 'tricepspushdown'
   | 'captainschair' | 'plank';
 
 export interface Exercise {
@@ -16,6 +16,14 @@ export interface Exercise {
   machineBase: number;
   instructions: string;
   machineType: MachineType;
+}
+
+export interface CustomExercise {
+  id: string;
+  name: string;
+  target: string;
+  photo?: string;
+  note?: string;
 }
 
 export interface RoutineDay {
