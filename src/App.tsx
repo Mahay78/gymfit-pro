@@ -35,6 +35,8 @@ import { MachineModal } from './components/MachineModal';
 import { PlateCalculator } from './components/PlateCalculator';
 import { OneRepMaxModal } from './components/OneRepMaxModal';
 import { WarmupModal } from './components/WarmupModal';
+import { ChallengeModal } from './components/ChallengeModal';
+import { parseChallengeFromUrl, clearChallengeUrl, type ChallengeShareData } from './utils/shareMotivation';
 import { Onboarding } from './components/Onboarding';
 import { UpdatePrompt } from './components/UpdatePrompt';
 
@@ -82,6 +84,14 @@ export default function App() {
   const [activePlateCalculator, setActivePlateCalculator] = useState<{ id: string; name: string; machineBase: number } | null>(null);
   const [active1RMData, setActive1RMData] = useState<{ name?: string; weight?: number } | null>(null);
   const [activeWarmupData, setActiveWarmupData] = useState<{ name: string; weight: number; machineBase?: number } | null>(null);
+  const [challengeData, setChallengeData] = useState<ChallengeShareData | null>(null);
+
+  useEffect(() => {
+    const parsed = parseChallengeFromUrl();
+    if (parsed) {
+      setChallengeData(parsed);
+    }
+  }, []);
 
   const soundEnabled = profile?.soundEnabled ?? true;
   const soundType = profile?.soundType ?? 'chime';
@@ -457,6 +467,23 @@ export default function App() {
           workingWeight={activeWarmupData.weight}
           machineBase={activeWarmupData.machineBase}
           onClose={() => setActiveWarmupData(null)}
+        />
+      )}
+
+      {challengeData && (
+        <ChallengeModal
+          data={challengeData}
+          onAccept={() => {
+            setActiveTab('rutinas');
+            playSound('chime');
+            showNotification(`¡Reto aceptado! A superar las marcas de ${challengeData.athleteName}.`);
+            clearChallengeUrl();
+            setChallengeData(null);
+          }}
+          onClose={() => {
+            clearChallengeUrl();
+            setChallengeData(null);
+          }}
         />
       )}
 
