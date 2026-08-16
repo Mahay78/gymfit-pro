@@ -33,8 +33,8 @@ export function Onboarding({ onComplete }: Props) {
   const isLast = step === slides.length - 1;
 
   return (
-    <div className="fixed inset-0 bg-slate-950 z-50 flex flex-col p-6 animate-fadeIn">
-      <div className="flex-1 flex flex-col items-center justify-center text-center max-w-sm mx-auto space-y-4 sm:space-y-6">
+    <div className="fixed inset-0 bg-slate-950 z-50 flex flex-col p-6 overflow-y-auto animate-fadeIn">
+      <div className="flex-1 flex flex-col items-center justify-center text-center max-w-sm mx-auto space-y-4 sm:space-y-6 min-h-full">
         <div className="text-5xl sm:text-7xl animate-bounce">{slide.icon}</div>
         <h1 className="text-xl sm:text-2xl font-black text-accent">{slide.title}</h1>
         <p className="text-sm sm:text-base text-slate-300 leading-relaxed">{slide.text}</p>

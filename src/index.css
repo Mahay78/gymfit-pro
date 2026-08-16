@@ -108,7 +108,6 @@ html, body {
     radial-gradient(1000px 500px at 100% 0%, color-mix(in srgb, var(--accent) 5%, transparent), transparent 50%);
   background-attachment: fixed;
   color: #f1f5f9;
-  overscroll-behavior-y: contain;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-feature-settings: "cv11", "ss01";
@@ -145,8 +144,9 @@ input[type="number"]::-webkit-inner-spin-button {
 .safe-top { padding-top: env(safe-area-inset-top, 0); }
 .safe-bottom { padding-bottom: env(safe-area-inset-bottom, 0); }
 
-/* Prevenir scroll horizontal */
-html, body { overflow-x: hidden; max-width: 100vw; }
+/* Prevenir scroll horizontal sin bloquear el vertical (clave para iOS) */
+html { overflow-x: hidden; }
+body { overflow-x: clip; }
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {

@@ -35,8 +35,8 @@ export function PlateCalculator({ exercise, customWeights, onApply, onClose, onS
   const result = calculatePlates(targetWeight, exercise.machineBase || 0);
 
   return (
-    <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fadeIn">
-      <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 w-full max-w-sm space-y-4 shadow-2xl">
+    <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center z-50 p-4 overflow-y-auto animate-fadeIn">
+      <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 w-full max-w-sm space-y-4 shadow-2xl my-auto">
         <div className="flex justify-between items-start">
           <div>
             <h4 className="font-black text-sm text-slate-100">Calculadora de Discos</h4>
