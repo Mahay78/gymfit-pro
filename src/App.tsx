@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback, Suspense, lazy } from 'react';
-import type { TabId, WorkoutPhase, Workout, HistoryItem, BodyMeasurement, CardioSession, MachineType, RoutineType, AbWeek, RoutineDay, RoutineOverrides } from './types';
+import type { TabId, WorkoutPhase, Workout, HistoryItem, BodyMeasurement, MachineType, RoutineType, AbWeek, RoutineDay } from './types';
 import { ROUTINE_WEEK_A, ROUTINE_WEEK_B } from './data/routines';
 import { ROUTINE_FULLBODY } from './data/fullbody';
 import { ROUTINE_PPL } from './data/ppl';
@@ -15,7 +15,7 @@ import { useAccent } from './hooks/useAccent';
 import { useHaptics } from './hooks/useHaptics';
 import { useImageOverrides } from './hooks/useImageOverrides';
 import { calculateProgressionSuggestions } from './utils/progression';
-import { safeClear, safeGetItem, safeSetItem } from './utils/storage';
+import { safeClear } from './utils/storage';
 import { formatDate } from './utils/format';
 import { Header } from './components/Header';
 import { Navigation } from './components/Navigation';
@@ -528,7 +528,6 @@ export default function App() {
   const setDailyWater = useCallback((val: number) => updateProfile({ dailyWater: val }), [updateProfile]);
   const setDailyProtein = useCallback((val: number) => updateProfile({ dailyProtein: val }), [updateProfile]);
   const setGoalWeight = useCallback((val: number) => updateProfile({ goalWeight: val }), [updateProfile]);
-  const setStartWeight = useCallback((val: number) => updateProfile({ startWeight: val }), [updateProfile]);
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans antialiased text-left">

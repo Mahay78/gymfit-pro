@@ -23,7 +23,7 @@ function useIndexedDB<T>(key: string, fallback: T, getFromDB: (db: typeof db) =>
       }
     });
     return () => { mounted = false; };
-  }, [key, getFromDB]);
+  }, [key, getFromDB, fallback]);
 
   const setValueCallback = useCallback((action: SetStateAction<T>) => {
     setValue(prev => {
