@@ -31,16 +31,17 @@ function calculatePlates(target: number, base: number): PlateResult {
 }
 
 export function PlateCalculator({ exercise, customWeights, onApply, onClose, onShowNotification }: Props) {
-  const [targetWeight, setTargetWeight] = useState(customWeights[exercise.id] || 40);
-  const result = calculatePlates(targetWeight, exercise.machineBase || 0);
+  const [targetWeight, setTargetWeight] = useState(customWeights?.[exercise?.id] || 40);
+  const result = calculatePlates(targetWeight, exercise?.machineBase || 0);
 
   return (
-    <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center z-50 p-4 overflow-y-auto animate-fadeIn">
-      <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 w-full max-w-sm space-y-4 shadow-2xl my-auto">
+    <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-end sm:items-center justify-center z-50 p-0 sm:p-4 overflow-y-auto animate-fadeIn">
+      <div className="bg-slate-900 border border-slate-800 rounded-t-3xl sm:rounded-3xl p-5 w-full max-w-sm space-y-4 shadow-2xl mobile-bottom-sheet">
+        <div className="w-12 h-1.5 bg-slate-700/60 rounded-full mx-auto -mt-2 mb-2 sm:hidden flex-shrink-0" />
         <div className="flex justify-between items-start">
           <div>
             <h4 className="font-black text-sm text-slate-100">Calculadora de Discos</h4>
-            <p className="text-[10px] text-slate-400">{exercise.name}</p>
+            <p className="text-[10px] text-slate-400">{exercise?.name}</p>
           </div>
           <button onClick={onClose} className="text-slate-400 hover:text-white font-bold text-xs">Cerrar</button>
         </div>
@@ -49,10 +50,10 @@ export function PlateCalculator({ exercise, customWeights, onApply, onClose, onS
           <div className="text-xs">
             <label className="block text-slate-400 mb-1 font-semibold">Peso Objetivo (kg)</label>
             <div className="flex gap-2 items-center">
-              <input type="number" inputMode="decimal" value={targetWeight}
+              <input type="number" inputMode="decimal" value={targetWeight ?? 40}
                 onChange={(e) => setTargetWeight(parseInt(e.target.value) || 0)}
                 className="bg-slate-950 border border-slate-800 p-2.5 rounded-xl text-slate-100 font-mono font-bold w-full" />
-              <span className="text-xs text-slate-400 whitespace-nowrap">Peso Base: {exercise.machineBase || 0}kg</span>
+              <span className="text-xs text-slate-400 whitespace-nowrap">Peso Base: {exercise?.machineBase || 0}kg</span>
             </div>
           </div>
 

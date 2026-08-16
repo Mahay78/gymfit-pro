@@ -9,6 +9,7 @@ import { StreakCard } from './StreakCard';
 import { GoalWeightCard } from './GoalWeightCard';
 import { ShareSummary } from './ShareSummary';
 import { Achievements } from './Achievements';
+import { MuscleHeatmap } from './MuscleHeatmap';
 import { getWorkoutStatsSince } from '../utils/analytics';
 
 interface Props {
@@ -36,6 +37,7 @@ interface Props {
   onShowNotification: (msg: string) => void;
   onShowMachine: (type: string) => void;
   onStartWorkout: () => void;
+  onOpen1RMCalculator?: (exerciseName?: string, weight?: number) => void;
 }
 
 export function ProgressTab({
@@ -44,7 +46,7 @@ export function ProgressTab({
   onWeightInputChange, onAddWeight, onGoalWeightChange,
   onWaistChange, onHipsChange, onChestChange, onThighChange,
   onAddMeasurement, onDeleteMeasurement, onShowNotification,
-  onShowMachine, onStartWorkout,
+  onShowMachine, onStartWorkout, onOpen1RMCalculator,
 }: Props) {
   const handleWeightSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -173,7 +175,7 @@ const lastMonthStats = getWorkoutStatsSince(history, 1);
         <LineChart data={weightChartData} label="Tendencia de peso" unit=" kg" color="#10b981" />
         <form onSubmit={handleWeightSubmit} className="flex gap-2 text-xs">
           <input
-            type="number" inputMode="decimal" step="0.1" value={newWeightInput}
+            type="number" inputMode="decimal" step="0.1" value={newWeightInput ?? ''}
             onChange={(e) => onWeightInputChange(e.target.value)}
             className="bg-slate-950 border border-slate-800 px-3 py-2.5 rounded-xl text-slate-200 font-bold w-full max-w-[120px] focus:outline-none"
             placeholder="Ej. 79.5"
@@ -194,6 +196,9 @@ const lastMonthStats = getWorkoutStatsSince(history, 1);
         <BarChart data={volumeChartData} unit="kg" color="#22d3ee" />
       </div>
 
+      {/* Mapa de Calor y Volumen Muscular Semanal */}
+      <MuscleHeatmap history={history} />
+
       {/* Records personales */}
       <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-xl space-y-4">
         <div>
@@ -201,7 +206,7 @@ const lastMonthStats = getWorkoutStatsSince(history, 1);
           <h3 className="text-base font-black">🏆 Tus mejores marcas</h3>
           <p className="text-[11px] text-slate-400">1RM estimado con fórmula Epley. La flecha indica tendencia.</p>
         </div>
-        <PRTracker history={history} customWeights={customWeights} />
+        <PRTracker history={history} customWeights={customWeights} onOpen1RMCalculator={onOpen1RMCalculator} />
       </div>
 
       {/* Medidas corporales */}
@@ -218,22 +223,22 @@ const lastMonthStats = getWorkoutStatsSince(history, 1);
         <form onSubmit={handleMeasurementSubmit} className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
           <div>
             <label className="block text-slate-400 mb-1 font-semibold">Cintura (cm)</label>
-            <input type="number" inputMode="decimal" value={newWaist} onChange={(e) => onWaistChange(e.target.value)}
+            <input type="number" inputMode="decimal" value={newWaist ?? ''} onChange={(e) => onWaistChange(e.target.value)}
               className="w-full bg-slate-950 border border-slate-800 p-2 rounded-xl text-slate-100" placeholder="Ej. 88" />
           </div>
           <div>
             <label className="block text-slate-400 mb-1 font-semibold">Cadera (cm)</label>
-            <input type="number" inputMode="decimal" value={newHips} onChange={(e) => onHipsChange(e.target.value)}
+            <input type="number" inputMode="decimal" value={newHips ?? ''} onChange={(e) => onHipsChange(e.target.value)}
               className="w-full bg-slate-950 border border-slate-800 p-2 rounded-xl text-slate-100" placeholder="Ej. 102" />
           </div>
           <div>
             <label className="block text-slate-400 mb-1 font-semibold">Pecho (cm)</label>
-            <input type="number" inputMode="decimal" value={newChest} onChange={(e) => onChestChange(e.target.value)}
+            <input type="number" inputMode="decimal" value={newChest ?? ''} onChange={(e) => onChestChange(e.target.value)}
               className="w-full bg-slate-950 border border-slate-800 p-2 rounded-xl text-slate-100" placeholder="Ej. 98" />
           </div>
           <div>
             <label className="block text-slate-400 mb-1 font-semibold">Muslo (cm)</label>
-            <input type="number" inputMode="decimal" value={newThigh} onChange={(e) => onThighChange(e.target.value)}
+            <input type="number" inputMode="decimal" value={newThigh ?? ''} onChange={(e) => onThighChange(e.target.value)}
               className="w-full bg-slate-950 border border-slate-800 p-2 rounded-xl text-slate-100" placeholder="Ej. 60" />
           </div>
           <div className="col-span-2 sm:col-span-4 pt-2">

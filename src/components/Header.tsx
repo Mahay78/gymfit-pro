@@ -5,12 +5,13 @@ interface Props {
   workoutActive: boolean;
   workoutPhase: string;
   activeWorkoutTime: number;
+  onOpen1RMCalculator?: () => void;
 }
 
-export function Header({ isOnline, workoutActive, workoutPhase, activeWorkoutTime }: Props) {
+export function Header({ isOnline, workoutActive, workoutPhase, activeWorkoutTime, onOpen1RMCalculator }: Props) {
   return (
-    <header className="sticky top-0 bg-slate-950/70 backdrop-blur-xl border-b border-white/5 z-40 px-4 py-3">
-      <div className="max-w-5xl mx-auto flex items-center justify-between gap-2">
+    <header className="sticky top-0 bg-slate-950/85 backdrop-blur-xl border-b border-white/5 z-40 px-3.5 py-3 pt-[calc(0.75rem+env(safe-area-inset-top,0px))] safe-top">
+      <div className="max-w-md mx-auto flex items-center justify-between gap-2">
         <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
           <div className="relative bg-gradient-to-br from-accent to-accent/70 text-slate-950 p-2 sm:p-2.5 rounded-xl shadow-lg shadow-accent/30 flex-shrink-0 ring-1 ring-white/20">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 sm:h-5.5 sm:w-5.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -39,12 +40,26 @@ export function Header({ isOnline, workoutActive, workoutPhase, activeWorkoutTim
           </div>
         </div>
 
-        {workoutActive && workoutPhase !== 'victory' && (
-          <div className="flex items-center gap-2 bg-rose-500/10 border border-rose-500/30 px-3 py-1.5 rounded-xl flex-shrink-0 ring-1 ring-rose-500/20">
-            <span className="w-2.5 h-2.5 rounded-full bg-rose-500 animate-ping" />
-            <span className="text-xs font-bold text-rose-400 font-mono tabular-nums">{formatTime(activeWorkoutTime)}</span>
-          </div>
-        )}
+        <div className="flex items-center gap-2">
+          {onOpen1RMCalculator && (
+            <button
+              type="button"
+              onClick={onOpen1RMCalculator}
+              title="Calculadora 1RM"
+              className="bg-slate-900 hover:bg-slate-850 text-slate-300 hover:text-accent border border-slate-800 px-2.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-colors active:scale-95"
+            >
+              <span>🎯</span>
+              <span className="hidden sm:inline">1RM</span>
+            </button>
+          )}
+
+          {workoutActive && workoutPhase !== 'victory' && (
+            <div className="flex items-center gap-2 bg-rose-500/10 border border-rose-500/30 px-3 py-1.5 rounded-xl flex-shrink-0 ring-1 ring-rose-500/20">
+              <span className="w-2.5 h-2.5 rounded-full bg-rose-500 animate-ping" />
+              <span className="text-xs font-bold text-rose-400 font-mono tabular-nums">{formatTime(activeWorkoutTime)}</span>
+            </div>
+          )}
+        </div>
       </div>
     </header>
   );

@@ -54,6 +54,7 @@ export interface SetData {
   reps: number;
   completed: boolean;
   rpe: number;
+  setType?: 'normal' | 'warmup' | 'dropset' | 'restpause' | 'failure';
 }
 
 export interface WorkoutExercise {

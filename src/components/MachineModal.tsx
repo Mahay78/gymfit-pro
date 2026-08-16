@@ -8,8 +8,9 @@ interface Props {
 
 export function MachineModal({ machineType, onClose }: Props) {
   return (
-    <div className="fixed inset-0 bg-slate-950/85 backdrop-blur-sm flex items-center justify-center z-50 p-4 overflow-y-auto animate-fadeIn">
-      <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 w-full max-w-sm space-y-4 shadow-2xl my-auto">
+    <div className="fixed inset-0 bg-slate-950/85 backdrop-blur-sm flex items-end sm:items-center justify-center z-50 p-0 sm:p-4 overflow-y-auto animate-fadeIn">
+      <div className="bg-slate-900 border border-slate-800 rounded-t-3xl sm:rounded-3xl p-5 w-full max-w-sm space-y-4 shadow-2xl mobile-bottom-sheet">
+        <div className="w-12 h-1.5 bg-slate-700/60 rounded-full mx-auto -mt-2 mb-2 sm:hidden flex-shrink-0" />
         <div className="flex justify-between items-start">
           <div>
             <h4 className="font-black text-sm text-slate-100 flex items-center gap-1.5">

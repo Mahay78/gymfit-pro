@@ -11,13 +11,13 @@ interface Props {
 
 export function GoalWeightCard({ currentWeight, goalWeight, startWeight, onSaveGoal, onShowNotification }: Props) {
   const [editing, setEditing] = useState(false);
-  const [draft, setDraft] = useState(String(goalWeight));
+  const [draft, setDraft] = useState(String(goalWeight || 75));
 
-  const total = Math.max(0.1, startWeight - goalWeight);
-  const lost = Math.max(0, startWeight - currentWeight);
+  const total = Math.max(0.1, (startWeight || 80) - (goalWeight || 75));
+  const lost = Math.max(0, (startWeight || 80) - (currentWeight || 80));
   const pct = Math.min(100, Math.max(0, (lost / total) * 100));
-  const remaining = Math.max(0, currentWeight - goalWeight);
-  const prediction = predictGoalDate(startWeight, currentWeight, goalWeight);
+  const remaining = Math.max(0, (currentWeight || 80) - (goalWeight || 75));
+  const prediction = predictGoalDate(startWeight || 80, currentWeight || 80, goalWeight || 75);
 
   const handleSave = () => {
     const v = parseFloat(draft);

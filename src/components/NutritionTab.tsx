@@ -1,5 +1,6 @@
 import type { CardioSession } from '../types';
 import { MacrosTracker } from './MacrosTracker';
+import { BodyFatCalculator } from './BodyFatCalculator';
 
 interface Props {
   userWeight: number;
@@ -93,22 +94,22 @@ export function NutritionTab({
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
           <div>
             <label className="block text-slate-400 mb-1 font-bold">Peso actual (kg)</label>
-            <input type="number" inputMode="decimal" value={userWeight} onChange={(e) => onUserWeightChange(parseFloat(e.target.value) || 0)}
+            <input type="number" inputMode="decimal" value={userWeight ?? 80} onChange={(e) => onUserWeightChange(parseFloat(e.target.value) || 0)}
               className="w-full bg-slate-950 border border-slate-800 p-2 rounded-xl text-slate-100 font-bold focus:outline-none" />
           </div>
           <div>
             <label className="block text-slate-400 mb-1 font-bold">Altura (cm)</label>
-            <input type="number" inputMode="numeric" value={userHeight} onChange={(e) => onUserHeightChange(parseInt(e.target.value) || 0)}
+            <input type="number" inputMode="numeric" value={userHeight ?? 175} onChange={(e) => onUserHeightChange(parseInt(e.target.value) || 0)}
               className="w-full bg-slate-950 border border-slate-800 p-2 rounded-xl text-slate-100 font-bold focus:outline-none" />
           </div>
           <div>
             <label className="block text-slate-400 mb-1 font-bold">Edad (años)</label>
-            <input type="number" inputMode="numeric" value={userAge} onChange={(e) => onUserAgeChange(parseInt(e.target.value) || 0)}
+            <input type="number" inputMode="numeric" value={userAge ?? 28} onChange={(e) => onUserAgeChange(parseInt(e.target.value) || 0)}
               className="w-full bg-slate-950 border border-slate-800 p-2 rounded-xl text-slate-100 font-bold focus:outline-none" />
           </div>
           <div>
             <label className="block text-slate-400 mb-1 font-bold">Género</label>
-            <select value={userGender} onChange={(e) => onUserGenderChange(e.target.value)}
+            <select value={userGender ?? 'male'} onChange={(e) => onUserGenderChange(e.target.value)}
               className="w-full bg-slate-950 border border-slate-800 p-2 rounded-xl text-slate-100 font-bold focus:outline-none">
               <option value="male">Masculino</option>
               <option value="female">Femenino</option>
@@ -118,7 +119,7 @@ export function NutritionTab({
 
         <div className="text-xs text-slate-400">
           <label className="block text-slate-400 mb-1 font-bold">Nivel de Actividad</label>
-          <select value={userActivity} onChange={(e) => onUserActivityChange(parseFloat(e.target.value))}
+          <select value={userActivity ?? 1.375} onChange={(e) => onUserActivityChange(parseFloat(e.target.value))}
             className="w-full bg-slate-950 border border-slate-800 p-2.5 rounded-xl text-slate-100 font-bold focus:outline-none">
             <option value={1.2}>Sedentario (Poco o ningún ejercicio)</option>
             <option value={1.375}>Actividad ligera (Gimnasio 1-3 veces/semana)</option>
@@ -138,6 +139,16 @@ export function NutritionTab({
           </div>
         </div>
       </div>
+
+      {/* Estimador de Grasa Corporal U.S. Navy */}
+      <BodyFatCalculator
+        userGender={userGender}
+        userHeight={userHeight}
+        userWeight={userWeight}
+        onSave={({ bodyFat, waist }) => {
+          onShowNotification(`% Grasa guardado: ${bodyFat}% (Cintura: ${waist} cm)`);
+        }}
+      />
 
       {/* Calculadora de macros */}
       <MacrosTracker

@@ -18,6 +18,7 @@ interface PR {
 interface Props {
   history: HistoryItem[];
   customWeights: Record<string, number>;
+  onOpen1RMCalculator?: (exerciseName?: string, weight?: number) => void;
 }
 
 const ALL_EXERCISES: Exercise[] = [
@@ -32,41 +33,70 @@ const ALL_EXERCISES: Exercise[] = [
 
 const uniqueExercises = Array.from(new Map(ALL_EXERCISES.map(e => [e.id, e])).values());
 
-export function PRTracker({ history, customWeights }: Props) {
+export function PRTracker({ history, customWeights, onOpen1RMCalculator }: Props) {
   const prs = calculatePRs(history, customWeights);
   const recentPRs = prs.slice(0, 6);
 
   if (prs.length === 0) {
     return (
-      <div className="bg-slate-950 border border-slate-850 rounded-2xl p-6 text-center">
-        <p className="text-2xl mb-2">🏆</p>
+      <div className="bg-slate-950 border border-slate-850 rounded-2xl p-6 text-center space-y-3">
+        <p className="text-2xl">🏆</p>
         <p className="text-xs text-slate-400">Aún no hay records personales.</p>
-        <p className="text-[10px] text-slate-500 mt-1">Completa entrenamientos para empezar a registrar tus PRs.</p>
+        <p className="text-[10px] text-slate-500">Completa entrenamientos para empezar a registrar tus PRs.</p>
+        {onOpen1RMCalculator && (
+          <button
+            type="button"
+            onClick={() => onOpen1RMCalculator()}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-900 hover:bg-slate-850 text-accent text-xs font-bold rounded-xl border border-slate-800 transition-colors"
+          >
+            <span>🎯</span> Abrir Calculadora 1RM
+          </button>
+        )}
       </div>
     );
   }
 
   return (
     <div className="space-y-2">
+      <div className="flex justify-between items-center px-1 pb-1">
+        <span className="text-xs font-bold text-slate-300">Tus Mejores Marcas</span>
+        {onOpen1RMCalculator && (
+          <button
+            type="button"
+            onClick={() => onOpen1RMCalculator()}
+            className="text-[10px] text-accent font-bold hover:underline flex items-center gap-1"
+          >
+            <span>🎯</span> Calculadora 1RM
+          </button>
+        )}
+      </div>
       {recentPRs.map(pr => (
-        <div key={pr.exerciseId} className="bg-slate-950 border border-slate-850 rounded-xl p-3 flex items-center justify-between">
+        <div
+          key={pr.exerciseId}
+          className="bg-slate-950 border border-slate-850 rounded-xl p-3 flex items-center justify-between hover:border-slate-750 transition-colors"
+        >
           <div className="flex-1 min-w-0">
             <p className="text-xs font-bold text-slate-100 truncate">{pr.exerciseName}</p>
             <p className="text-[10px] text-slate-500 mt-0.5">Último: {pr.date}</p>
           </div>
           <div className="flex items-center gap-3">
-            <div className="text-right">
-              <p className="text-base font-black text-accent font-mono">{pr.oneRepMax}kg</p>
-              <p className="text-[9px] text-slate-500 uppercase">1RM est.</p>
-            </div>
-            {pr.trend === 'up' && <span className="text-accent text-sm">↑</span>}
-            {pr.trend === 'down' && <span className="text-rose-400 text-sm">↓</span>}
+            <button
+              type="button"
+              onClick={() => onOpen1RMCalculator?.(pr.exerciseName, pr.oneRepMax)}
+              title="Ver desglose 1RM"
+              className="text-right group cursor-pointer"
+            >
+              <p className="text-base font-black text-accent font-mono group-hover:scale-105 transition-transform">{pr.oneRepMax}kg</p>
+              <p className="text-[9px] text-slate-500 uppercase group-hover:text-slate-300">1RM est.</p>
+            </button>
+            {pr.trend === 'up' && <span className="text-accent text-sm font-bold">↑</span>}
+            {pr.trend === 'down' && <span className="text-rose-400 text-sm font-bold">↓</span>}
             {pr.trend === 'same' && <span className="text-slate-500 text-sm">=</span>}
           </div>
         </div>
       ))}
       <p className="text-[9px] text-slate-500 text-center pt-2">
-        Mostrando {recentPRs.length} de {prs.length} ejercicios. 1RM estimado por fórmula Epley.
+        Mostrando {recentPRs.length} de {prs.length} ejercicios. Toca cualquier marca para ver zonas de carga.
       </p>
     </div>
   );
