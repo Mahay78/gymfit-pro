@@ -102,14 +102,32 @@ export function ShareCardModal({ historyItem, userWeight, onClose }: Props) {
         </div>
 
         {/* Action Buttons */}
-        <div className="p-4 border-t border-slate-800 bg-slate-950/70 flex gap-2">
-          <button
-            type="button"
-            onClick={handleShare}
-            className="flex-1 py-3 bg-accent hover:opacity-90 text-slate-950 font-black text-xs rounded-xl shadow-lg active:scale-95 transition-all flex items-center justify-center gap-1.5"
-          >
-            <span>📲</span> Compartir / Copiar
-          </button>
+        <div className="p-4 border-t border-slate-800 bg-slate-950/70 flex flex-col gap-2">
+          <div className="grid grid-cols-2 gap-2">
+            <button
+              type="button"
+              onClick={async () => {
+                const { shareViaWhatsApp } = await import('../utils/shareMotivation');
+                shareViaWhatsApp({
+                  athleteName: 'Tu compañero',
+                  workoutTitle: historyItem.dayTitle,
+                  volume: historyItem.totalVolume,
+                  duration: historyItem.duration,
+                });
+              }}
+              className="py-3 bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-400 font-black text-xs rounded-xl active:scale-95 transition-all flex items-center justify-center gap-1.5"
+            >
+              <span>📲</span> WhatsApp
+            </button>
+
+            <button
+              type="button"
+              onClick={handleShare}
+              className="py-3 bg-accent hover:opacity-90 text-slate-950 font-black text-xs rounded-xl shadow-lg active:scale-95 transition-all flex items-center justify-center gap-1.5"
+            >
+              <span>✨</span> Compartir
+            </button>
+          </div>
         </div>
       </div>
     </div>

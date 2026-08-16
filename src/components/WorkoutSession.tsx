@@ -427,12 +427,29 @@ function VictoryScreen({ activeWorkoutTime, onFinish }: { activeWorkoutTime: num
         />
       </div>
 
-      <button
-        onClick={() => onFinish(notes)}
-        className="w-full bg-accent hover:opacity-90 text-slate-950 font-black py-3.5 rounded-xl text-xs shadow-lg active:scale-98 transition-all"
-      >
-        Guardar y Ver Progreso
-      </button>
+      <div className="space-y-2">
+        <button
+          onClick={async () => {
+            const { shareViaWhatsApp } = await import('../utils/shareMotivation');
+            shareViaWhatsApp({
+              athleteName: 'Tu compañero',
+              workoutTitle: 'Entrenamiento Completado 🏆',
+              volume: 4500,
+              duration: formatTime(activeWorkoutTime),
+            });
+          }}
+          className="w-full bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-400 font-black py-3 rounded-xl text-xs active:scale-98 transition-all flex items-center justify-center gap-1.5"
+        >
+          <span>📲</span> Compartir Reto en WhatsApp
+        </button>
+
+        <button
+          onClick={() => onFinish(notes)}
+          className="w-full bg-accent hover:opacity-90 text-slate-950 font-black py-3.5 rounded-xl text-xs shadow-lg active:scale-98 transition-all"
+        >
+          Guardar y Ver Progreso
+        </button>
+      </div>
     </div>
   );
 }

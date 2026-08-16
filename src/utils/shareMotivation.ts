@@ -7,9 +7,17 @@ export interface ChallengeShareData {
 }
 
 export function createChallengeUrl(data: ChallengeShareData): string {
-  const origin = typeof window !== 'undefined' ? window.location.origin : '';
-  const pathname = typeof window !== 'undefined' ? window.location.pathname : '/gymfit-pro/';
-  const cleanPath = pathname.endsWith('/') ? pathname : `${pathname}/`;
+  let baseUrl = 'https://mahay78.github.io/gymfit-pro/';
+
+  if (typeof window !== 'undefined') {
+    const origin = window.location.origin;
+    // Si ya está en un dominio público real (no localhost), usar el dominio actual
+    if (!origin.includes('localhost') && !origin.includes('127.0.0.1')) {
+      const pathname = window.location.pathname;
+      const cleanPath = pathname.endsWith('/') ? pathname : `${pathname}/`;
+      baseUrl = `${origin}${cleanPath}`;
+    }
+  }
 
   const params = new URLSearchParams({
     challenge: '1',
@@ -23,7 +31,7 @@ export function createChallengeUrl(data: ChallengeShareData): string {
     params.set('streak', data.streak.toString());
   }
 
-  return `${origin}${cleanPath}?${params.toString()}`;
+  return `${baseUrl}?${params.toString()}`;
 }
 
 export function generateWhatsAppMessage(data: ChallengeShareData): string {
@@ -40,13 +48,25 @@ export function generateWhatsAppMessage(data: ChallengeShareData): string {
   );
 }
 
-export function shareViaWhatsApp(data: ChallengeShareData) {
+export function shareViaWhatsApp(data: ChallengeShareData): string {
   const message = generateWhatsAppMessage(data);
-  const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`;
+  const encodedMessage = encodeURIComponent(message);
+  const whatsappUrl = `https://api.whatsapp.com/send?text=${encodedMessage}`;
 
   if (typeof window !== 'undefined') {
-    window.open(whatsappUrl, '_blank');
+    // Intentar copiar al portapapeles por seguridad
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(message).catch(() => {});
+    }
+
+    // Abrir WhatsApp
+    const win = window.open(whatsappUrl, '_blank');
+    if (!win || win.closed || typeof win.closed === 'undefined') {
+      window.location.href = whatsappUrl;
+    }
   }
+
+  return message;
 }
 
 export function parseChallengeFromUrl(): ChallengeShareData | null {
