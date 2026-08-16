@@ -518,12 +518,20 @@ function WarmupPhase({
           </div>
         ))}
       </div>
-      <button
-        onClick={onProceed}
-        className="w-full bg-accent hover:opacity-90 text-slate-950 font-black py-3.5 rounded-xl text-xs transition-colors"
-      >
-        Completar Calentamiento → Ir a Máquinas
-      </button>
+      <div className="space-y-2 pt-1">
+        <button
+          onClick={onProceed}
+          className="w-full bg-accent hover:opacity-90 text-slate-950 font-black py-3.5 rounded-2xl text-xs transition-all shadow-lg shadow-accent/20 active:scale-95 flex items-center justify-center gap-1.5"
+        >
+          <span>💪</span> Comenzar Pesas y Máquinas
+        </button>
+        <button
+          onClick={onProceed}
+          className="w-full bg-slate-950 hover:bg-slate-850 border border-slate-800 text-slate-400 text-[11px] font-bold py-2 rounded-xl active:scale-95 transition-all"
+        >
+          ⚡ Ya he calentado (Saltar directo a pesas)
+        </button>
+      </div>
     </div>
   );
 }

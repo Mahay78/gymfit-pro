@@ -183,6 +183,23 @@ export function RoutineView({
           <p className="text-xs text-slate-400 mt-1">{currentDay.description}</p>
         </div>
 
+        {/* Botón Principal Superior de Iniciar */}
+        <button
+          onClick={() => {
+            if (workoutActive) {
+              onSetActiveTab('entrenar');
+            } else {
+              onStartWorkout(safeDay);
+            }
+          }}
+          className="w-full bg-accent hover:opacity-90 text-slate-950 font-black py-3.5 rounded-2xl flex items-center justify-center gap-2 transition-all shadow-lg shadow-accent/25 text-xs active:scale-95"
+        >
+          <span>🏋️</span>
+          {workoutActive
+            ? 'Continuar Entrenamiento Activo'
+            : `Iniciar Entrenamiento • ${currentDay.shortTitle}`}
+        </button>
+
         <div className="flex items-center gap-2">
           <button
             onClick={() => setEditing(!editing)}
