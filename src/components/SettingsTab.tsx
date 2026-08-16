@@ -303,6 +303,24 @@ export function SettingsTab({
         <input ref={fileInputRef} type="file" accept="application/json" className="hidden" onChange={handleImport} />
       </div>
 
+      {/* Actualización y Limpieza de Caché */}
+      <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-xl space-y-3">
+        <h3 className="font-black text-sm text-slate-200">🔄 Actualización de la App</h3>
+        <p className="text-[10px] text-slate-400 leading-relaxed">
+          Si notas que la app no muestra las últimas funciones (navegación de 4 pestañas, acordión o confeti), pulsa
+          aquí para purgar la caché y recargar la versión más reciente.
+        </p>
+        <button
+          onClick={async () => {
+            const { forceReloadLatestVersion } = await import('../utils/cacheBuster');
+            forceReloadLatestVersion();
+          }}
+          className="w-full bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-400 font-black py-3 rounded-2xl text-xs active:scale-95 transition-all flex items-center justify-center gap-2"
+        >
+          <span>⚡</span> Forzar Actualización y Limpiar Caché
+        </button>
+      </div>
+
       {/* Zona de peligro */}
       <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-xl text-xs space-y-2">
         <h3 className="font-black text-sm text-rose-500">Zona de peligro</h3>

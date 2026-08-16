@@ -53,6 +53,18 @@ export function Header({ isOnline, workoutActive, workoutPhase, activeWorkoutTim
             </button>
           )}
 
+          <button
+            type="button"
+            onClick={async () => {
+              const { forceReloadLatestVersion } = await import('../utils/cacheBuster');
+              forceReloadLatestVersion();
+            }}
+            title="Recargar última versión (limpiar caché)"
+            className="bg-slate-900 hover:bg-slate-850 text-slate-400 hover:text-accent border border-slate-800 p-2 rounded-xl text-xs font-bold active:scale-95 transition-all"
+          >
+            🔄
+          </button>
+
           {workoutActive && workoutPhase !== 'victory' && (
             <div className="flex items-center gap-2 bg-rose-500/10 border border-rose-500/30 px-3 py-1.5 rounded-xl flex-shrink-0 ring-1 ring-rose-500/20">
               <span className="w-2.5 h-2.5 rounded-full bg-rose-500 animate-ping" />
