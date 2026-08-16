@@ -28,7 +28,8 @@ describe('shareMotivation utility', () => {
     });
 
     expect(msg).toContain('GymFit Pro');
-    expect(msg).toContain('4500 kg');
+    expect(msg).toContain('Día 1: Pecho & Espalda');
+    expect(msg).toMatch(/4[,.]?500\s*kg/);
     expect(msg).toContain('5 días consecutivos');
     expect(msg).toContain('¿Aceptas el reto de entrenar hoy?');
   });
