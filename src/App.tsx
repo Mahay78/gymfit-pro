@@ -36,7 +36,9 @@ import { PlateCalculator } from './components/PlateCalculator';
 import { OneRepMaxModal } from './components/OneRepMaxModal';
 import { WarmupModal } from './components/WarmupModal';
 import { ChallengeModal } from './components/ChallengeModal';
+import { FloatingRestTimer } from './components/FloatingRestTimer';
 import { parseChallengeFromUrl, clearChallengeUrl, type ChallengeShareData } from './utils/shareMotivation';
+import { triggerConfetti } from './utils/confetti';
 import { Onboarding } from './components/Onboarding';
 import { UpdatePrompt } from './components/UpdatePrompt';
 
@@ -288,66 +290,68 @@ export default function App() {
       />
 
       <main className="flex-grow max-w-md w-full mx-auto px-3.5 py-4 pb-32">
-        {activeTab === 'rutinas' && (
+        {/* Pestaña Unificada de Entrenamiento / Rutinas */}
+        {(activeTab === 'entrenar' || activeTab === 'rutinas') && (
           <Suspense fallback={<TabLoadingSkeleton />}>
-            <RoutineView
-              selectedRoutineType={selectedRoutineType}
-              selectedWeek={selectedWeek}
-              selectedDay={selectedDay}
-              customWeights={customWeights}
-              workoutActive={workout.workoutActive}
-              overrides={routineOverrides}
-              onOverridesChange={setRoutineOverrides}
-              onSelectRoutineType={setSelectedRoutineType}
-              onSelectWeek={setSelectedWeek}
-              onSelectDay={setSelectedDay}
-              onStartWorkout={workout.startWorkout}
-              onShowMachine={type => setActiveMachineType(type as MachineType)}
-              onShowNotification={showNotification}
-              onSetActiveTab={tab => setActiveTab(tab as TabId)}
-            />
-          </Suspense>
-        )}
-
-        {activeTab === 'entrenar' && (
-          <Suspense fallback={<TabLoadingSkeleton />}>
-            <WorkoutSession
-              workout={workout.currentWorkout}
-              workoutActive={workout.workoutActive}
-              workoutPhase={workout.workoutPhase}
-              activeWorkoutTime={workout.activeWorkoutTime}
-              timerLeft={workout.timerLeft}
-              initialTimerLeft={workout.initialTimerLeft}
-              timerRunning={workout.timerRunning}
-              timerTotal={timerTotal}
-              cardioTimeLeft={workout.cardioTimeLeft}
-              cardioTimerRunning={workout.cardioTimerRunning}
-              completedWarmupSteps={workout.completedWarmupSteps}
-              swappedExercises={workout.swappedExercises}
-              dailyWater={dailyWater}
-              selectedCardioType={workout.selectedCardioType}
-              soundEnabled={soundEnabled}
-              soundType={soundType}
-              history={history}
-              onProceedToLifting={workout.proceedToLifting}
-              onProceedToCardio={workout.proceedToCardio}
-              onFinishWorkout={workout.finishWorkout}
-              onCancelWorkout={workout.cancelWorkout}
-              onToggleWarmupStep={workout.toggleWarmupStep}
-              onToggleSetCompleted={workout.toggleSetCompleted}
-              onToggleSwapExercise={workout.toggleSwapExercise}
-              onUpdateSetValues={workout.updateSetValues}
-              onHandleRpeChange={workout.handleRpeChange}
-              onSetTimerRunning={workout.setTimerRunning}
-              onSetTimerLeft={workout.setTimerLeft}
-              onSetCardioTimerRunning={workout.setCardioTimerRunning}
-              onSetSelectedCardioType={workout.setSelectedCardioType}
-              onDailyWaterChange={setDailyWater}
-              onOpenPlateCalculator={handleOpenPlateCalculator}
-              onOpenWarmupModal={setActiveWarmupData}
-              onShowMachine={type => setActiveMachineType(type as MachineType)}
-              onShowNotification={showNotification}
-            />
+            {workout.workoutActive ? (
+              <WorkoutSession
+                workout={workout.currentWorkout}
+                workoutActive={workout.workoutActive}
+                workoutPhase={workout.workoutPhase}
+                activeWorkoutTime={workout.activeWorkoutTime}
+                timerLeft={workout.timerLeft}
+                initialTimerLeft={workout.initialTimerLeft}
+                timerRunning={workout.timerRunning}
+                timerTotal={timerTotal}
+                cardioTimeLeft={workout.cardioTimeLeft}
+                cardioTimerRunning={workout.cardioTimerRunning}
+                completedWarmupSteps={workout.completedWarmupSteps}
+                swappedExercises={workout.swappedExercises}
+                dailyWater={dailyWater}
+                selectedCardioType={workout.selectedCardioType}
+                soundEnabled={soundEnabled}
+                soundType={soundType}
+                history={history}
+                onProceedToLifting={workout.proceedToLifting}
+                onProceedToCardio={workout.proceedToCardio}
+                onFinishWorkout={notes => {
+                  workout.finishWorkout(notes);
+                  triggerConfetti();
+                }}
+                onCancelWorkout={workout.cancelWorkout}
+                onToggleWarmupStep={workout.toggleWarmupStep}
+                onToggleSetCompleted={workout.toggleSetCompleted}
+                onToggleSwapExercise={workout.toggleSwapExercise}
+                onUpdateSetValues={workout.updateSetValues}
+                onHandleRpeChange={workout.handleRpeChange}
+                onSetTimerRunning={workout.setTimerRunning}
+                onSetTimerLeft={workout.setTimerLeft}
+                onSetCardioTimerRunning={workout.setCardioTimerRunning}
+                onSetSelectedCardioType={workout.setSelectedCardioType}
+                onDailyWaterChange={setDailyWater}
+                onOpenPlateCalculator={handleOpenPlateCalculator}
+                onOpenWarmupModal={setActiveWarmupData}
+                onShowMachine={type => setActiveMachineType(type as MachineType)}
+                onShowNotification={showNotification}
+              />
+            ) : (
+              <RoutineView
+                selectedRoutineType={selectedRoutineType}
+                selectedWeek={selectedWeek}
+                selectedDay={selectedDay}
+                customWeights={customWeights}
+                workoutActive={workout.workoutActive}
+                overrides={routineOverrides}
+                onOverridesChange={setRoutineOverrides}
+                onSelectRoutineType={setSelectedRoutineType}
+                onSelectWeek={setSelectedWeek}
+                onSelectDay={setSelectedDay}
+                onStartWorkout={workout.startWorkout}
+                onShowMachine={type => setActiveMachineType(type as MachineType)}
+                onShowNotification={showNotification}
+                onSetActiveTab={tab => setActiveTab(tab as TabId)}
+              />
+            )}
           </Suspense>
         )}
 
@@ -435,6 +439,19 @@ export default function App() {
           </Suspense>
         )}
       </main>
+
+      {/* Mini-Widget flotante de descanso al navegar por otras pestañas */}
+      {workout.workoutActive && workout.timerLeft > 0 && activeTab !== 'entrenar' && activeTab !== 'rutinas' && (
+        <FloatingRestTimer
+          timerLeft={workout.timerLeft}
+          onAddSeconds={sec => workout.setTimerLeft(workout.timerLeft + sec)}
+          onNavigateToWorkout={() => setActiveTab('entrenar')}
+          onSkipTimer={() => {
+            workout.setTimerLeft(0);
+            workout.setTimerRunning(false);
+          }}
+        />
+      )}
 
       <Navigation activeTab={activeTab} onTabChange={setActiveTab} workoutActive={workout.workoutActive} />
 

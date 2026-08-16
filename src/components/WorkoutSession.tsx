@@ -220,42 +220,60 @@ function ExerciseCard({
   onShowNotification: (msg: string) => void;
 }) {
   const [showNoteInput, setShowNoteInput] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
   const allDone = ex.sets.every(s => s.completed);
   const activeName = isSwapped ? ex.alternativeName : ex.name;
+  const completedCount = ex.sets.filter(s => s.completed).length;
 
   return (
     <div
       className={`bg-slate-900 border rounded-3xl p-4 sm:p-5 shadow-xl transition-all ${
-        allDone ? 'border-emerald-500/30 bg-emerald-950/10' : 'border-slate-800'
+        allDone ? 'border-emerald-500/40 bg-emerald-950/15' : 'border-slate-800'
       }`}
     >
-      <div className="pb-3 border-b border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
-        <div>
-          <div className="flex items-center gap-2">
-            <h3 className="text-sm font-black text-slate-100">
-              {exIdx + 1}. {activeName}
-            </h3>
-            {allDone && (
-              <span className="text-[9px] bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded-full font-black">
-                COMPLETO
-              </span>
-            )}
-          </div>
-          <p className="text-[11px] text-slate-400 mt-0.5">Objetivo: {ex.target}</p>
-
-          {/* Ghost Performance (Previous Session Summary) */}
-          {prevPerf && (
-            <div className="inline-flex items-center gap-1.5 mt-1 bg-slate-950 px-2.5 py-1 rounded-xl border border-slate-850 text-[10px]">
-              <span className="text-accent font-bold">🎯 Anterior:</span>
-              <span className="text-slate-200 font-mono font-bold">
-                {prevPerf.bestSet.weight}kg × {prevPerf.bestSet.reps}
-              </span>
-              <span className="text-slate-500">({prevPerf.lastDate})</span>
+      <div className="flex items-center justify-between gap-2.5 pb-2">
+        <button
+          type="button"
+          onClick={() => setCollapsed(prev => !prev)}
+          className="flex-1 flex items-center justify-between text-left group"
+        >
+          <div>
+            <div className="flex items-center gap-2">
+              <h3 className="text-sm font-black text-slate-100 group-hover:text-accent transition-colors">
+                {exIdx + 1}. {activeName}
+              </h3>
+              {allDone ? (
+                <span className="text-[9px] bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 px-2 py-0.5 rounded-full font-black">
+                  ✓ COMPLETO
+                </span>
+              ) : (
+                <span className="text-[9px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded-full font-bold">
+                  {completedCount}/{ex.sets.length} series
+                </span>
+              )}
             </div>
-          )}
-        </div>
+            <p className="text-[11px] text-slate-400 mt-0.5">Objetivo: {ex.target}</p>
+          </div>
+          <span className="text-xs text-slate-500 group-hover:text-slate-300 font-bold px-2 py-1 bg-slate-950 rounded-lg border border-slate-850">
+            {collapsed ? '▼ Desplegar' : '▲ Plegar'}
+          </span>
+        </button>
+      </div>
 
-        <div className="flex items-center gap-1.5 flex-wrap">
+      {/* Ghost Performance (Previous Session Summary) */}
+      {!collapsed && prevPerf && (
+        <div className="inline-flex items-center gap-1.5 mb-2.5 bg-slate-950 px-2.5 py-1 rounded-xl border border-slate-850 text-[10px]">
+          <span className="text-accent font-bold">🎯 Anterior:</span>
+          <span className="text-slate-200 font-mono font-bold">
+            {prevPerf.bestSet.weight}kg × {prevPerf.bestSet.reps}
+          </span>
+          <span className="text-slate-500">({prevPerf.lastDate})</span>
+        </div>
+      )}
+
+      {/* Action Buttons Toolbar */}
+      {!collapsed && (
+        <div className="flex items-center gap-1.5 flex-wrap pb-3 border-b border-slate-800/80">
           <button
             type="button"
             onClick={() => {
@@ -318,10 +336,10 @@ function ExerciseCard({
             {isSwapped ? 'Alternativa activa' : 'Ocupada'}
           </button>
         </div>
-      </div>
+      )}
 
       {/* Machine Setup Ergonomics Note Input */}
-      {showNoteInput && (
+      {!collapsed && showNoteInput && (
         <div className="mt-3 p-3 bg-slate-950 rounded-2xl border border-slate-850 space-y-1.5 animate-fadeIn">
           <label className="text-[10px] font-bold text-slate-400 block uppercase">
             Ajustes de máquina (Asiento, Respaldo, Pin...)
@@ -336,34 +354,36 @@ function ExerciseCard({
         </div>
       )}
 
-      <div className="mt-3 space-y-2">
-        <div className="grid grid-cols-12 text-[9px] text-slate-500 uppercase font-bold text-center px-1">
-          <span className="col-span-2 text-left pl-1">Serie</span>
-          <span className="col-span-4">Carga (kg)</span>
-          <span className="col-span-3">Reps</span>
-          <span className="col-span-3 text-right pr-1">Listo</span>
-        </div>
+      {!collapsed && (
+        <div className="mt-3 space-y-2 animate-fadeIn">
+          <div className="grid grid-cols-12 text-[9px] text-slate-500 uppercase font-bold text-center px-1">
+            <span className="col-span-2 text-left pl-1">Serie</span>
+            <span className="col-span-4">Carga (kg)</span>
+            <span className="col-span-3">Reps</span>
+            <span className="col-span-3 text-right pr-1">Listo</span>
+          </div>
 
-        {ex.sets.map((set, sIdx) => (
-          <SetRow
-            key={sIdx}
-            exId={ex.id}
-            set={set}
-            sIdx={sIdx}
-            prevSet={prevPerf?.sets?.[sIdx]}
-            onToggleSetCompleted={onToggleSetCompleted}
-            onUpdateSetValues={onUpdateSetValues}
-            onHandleRpeChange={onHandleRpeChange}
+          {ex.sets.map((set, sIdx) => (
+            <SetRow
+              key={sIdx}
+              exId={ex.id}
+              set={set}
+              sIdx={sIdx}
+              prevSet={prevPerf?.sets?.[sIdx]}
+              onToggleSetCompleted={onToggleSetCompleted}
+              onUpdateSetValues={onUpdateSetValues}
+              onHandleRpeChange={onHandleRpeChange}
+            />
+          ))}
+
+          <WeightSuggestion
+            exerciseId={ex.id}
+            currentWeight={ex.sets[0]?.weight || 0}
+            history={history}
+            onApply={() => {}}
           />
-        ))}
-
-        <WeightSuggestion
-          exerciseId={ex.id}
-          currentWeight={ex.sets[0]?.weight || 0}
-          history={history}
-          onApply={() => {}}
-        />
-      </div>
+        </div>
+      )}
     </div>
   );
 }
