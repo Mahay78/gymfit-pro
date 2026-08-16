@@ -23,6 +23,7 @@ export default defineConfig({
         globPatterns: ['**/*.{js,css,html,ico,png,svg,webp,woff2}'],
         cleanupOutdatedCaches: true,
         clientsClaim: true,
+        skipWaiting: true,
       },
       manifest: {
         name: 'GymFit Pro — Entrenamiento',
