@@ -4,6 +4,7 @@ import tailwindcss from '@tailwindcss/vite'
 import { VitePWA } from 'vite-plugin-pwa'
 
 export default defineConfig({
+  base: '/gymfit-pro/',
   plugins: [
     react(),
     tailwindcss(),
@@ -34,8 +35,8 @@ export default defineConfig({
         orientation: 'portrait',
         lang: 'es',
         dir: 'ltr',
-        scope: '/',
-        start_url: '/',
+        scope: '/gymfit-pro/',
+        start_url: '/gymfit-pro/',
         categories: ['health', 'fitness', 'lifestyle'],
         icons: [
           {
@@ -62,14 +63,14 @@ export default defineConfig({
             name: 'Iniciar entrenamiento',
             short_name: 'Entrenar',
             description: 'Inicia tu rutina de hoy',
-            url: '/?tab=entrenar',
+            url: '/gymfit-pro/?tab=entrenar',
             icons: [{ src: 'pwa-192x192.png', sizes: '192x192', type: 'image/png' }]
           },
           {
             name: 'Ver progreso',
             short_name: 'Progreso',
             description: 'Mira tus gráficas y records',
-            url: '/?tab=progreso',
+            url: '/gymfit-pro/?tab=progreso',
             icons: [{ src: 'pwa-192x192.png', sizes: '192x192', type: 'image/png' }]
           }
         ]
